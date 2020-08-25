@@ -1,0 +1,1 @@
+This folder contains two folder. One for each agent based model. The results are stored as .RData files, which can be loaded to replicate the figures. The folders also contain figures not used in the publication. These were used to verify the models are running correctly in the R version. 
