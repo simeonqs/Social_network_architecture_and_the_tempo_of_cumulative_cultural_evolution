@@ -1,13 +1,11 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-# Project: follow up Migliano et al. 2020, model 2
+# Project: Cantor et al. 2020
 # Date started: 04-07-2020
-# Date last modified: 20-07-2020
+# Date last modified: 25-08-2020
 # Author: Simeon Smeele
-# Description: Testing the model from Migliano et al. 2020 with different networks. 
-# This version runs through all networks and records: type, degree, pop size. 
-# This version changes to the new model with transmission.
-# This version changes how invention after crossover is handled. 
-# This version ran 10,000 iterations for the final results. 
+# Description: This is the R version of the second agent based model in Cantor et al. 2020. It loads the 
+# networks and saves the results from the paths specified in the DATA section. It will install and load 
+# required packages. 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -27,8 +25,8 @@ dev.off()
 cat("\014")  
 
 # Paths
-path_networks = '/Users/ssmeele/ownCloud/MultilevelSociality_CumulativeCulture/Code/ABM/ABM_R/networks'
-path_out = '/Users/ssmeele/ownCloud/MultilevelSociality_CumulativeCulture/Code/ABM/ABM_R/output/model 2/'
+path_networks = 'Social_network_architecture_and_the_rate_of_cumulative_cultural_evolution/code/3_R_agent_based_models/networks'
+path_out = 'Social_network_architecture_and_the_rate_of_cumulative_cultural_evolution/code/3_R_agent_based_models/output/model 2/'
 
 # Settings
 n_iter = 10000 # number of iterations
