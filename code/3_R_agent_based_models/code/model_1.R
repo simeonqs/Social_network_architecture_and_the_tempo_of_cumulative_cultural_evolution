@@ -1,11 +1,11 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # Project: Cantor et al. 2020
 # Date started: 04-07-2020
-# Date last modified: 25-08-2020
+# Date last modified: 28-09-2020
 # Author: Simeon Quirinus Smeele
 # Description: This is the R version of the first agent based model in Cantor et al. 2020. It loads the 
 # networks and saves the results from the paths specified in the DATA section. It will install and load 
-# required packages. 
+# required packages. Make sure to update the paths to fit your folder location. 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -26,7 +26,7 @@ cat("\014")
 
 # Paths
 path_networks = 'Social_network_architecture_and_the_rate_of_cumulative_cultural_evolution/code/3_R_agent_based_models/networks'
-path_out = 'Social_network_architecture_and_the_rate_of_cumulative_cultural_evolution/code/3_R_agent_based_models/output/model 1/'
+path_out = 'Social_network_architecture_and_the_rate_of_cumulative_cultural_evolution/code/3_R_agent_based_models/output/model_1/'
 
 # Settings
 n_iter = 100 # number of iterations
