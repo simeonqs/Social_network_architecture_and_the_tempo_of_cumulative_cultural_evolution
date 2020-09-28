@@ -9,6 +9,8 @@
 # Step 1: Change the paths in the DATA sections to fit your folder location.
 # Step 2 (optional): Change the settings in the DATA sections.
 # Step 3: Run the code selecting all and clicking 'Run' or line by line by clicking 'Run' multiple times. 
+# WARNING: Last line saves the data needed to create the diversity plot. Only save this for a few iterations
+# otherwise the file will be very large. 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -24,17 +26,17 @@ for(i in libraries){
 
 # Clean R
 rm(list=ls()) 
-dev.off()
+dev.off() # ignore the error message
 cat("\014")  
 
 # Paths
-path_networks = 'Social_network_architecture_and_the_rate_of_cumulative_cultural_evolution/code/3_R_agent_based_models/networks'
-path_out = 'Social_network_architecture_and_the_rate_of_cumulative_cultural_evolution/code/3_R_agent_based_models/output/model_1/'
+path_networks = '/Users/ssmeele/Library/Mobile Documents/com~apple~CloudDocs/Downloads/Social_network_architecture_and_the_tempo_of_cumulative_cultural_evolution-master/code/3_R_agent_based_models/networks'
+path_out = '/Users/ssmeele/Library/Mobile Documents/com~apple~CloudDocs/Downloads/Social_network_architecture_and_the_tempo_of_cumulative_cultural_evolution-master/code/3_R_agent_based_models/output/model_1/'
 
 # Settings
-n_iter = 100 # number of iterations
-n_cores = 40 # number of cores to use (needs to be 1 on Windows)
-min_epoch = 250 # how many epochs to run for diversity
+n_iter = 3 # number of iterations
+n_cores = 4 # number of cores to use (needs to be 1 on Windows)
+min_epoch = 50 # how many epochs to run for diversity
 
 # Read in networks
 list_networks = list.files(path_networks, full.names = T, pattern = '*pajek', recursive = T) %>% 
@@ -232,8 +234,10 @@ simCE = function(network, name_network, n_iter){
 } # End simCE
 
 # Apply function to each network and bind the two dataframes
-all_out = lapply(1:length(list_networks), function(x) 
-  simCE(list_networks[[x]], names(list_networks)[x], n_iter)) 
+all_out = lapply(1:length(list_networks), function(x){
+  if(length(list_networks) == 0) stop('List networks empty.You probably made a mistake in the path to the network folder.')
+  simCE(list_networks[[x]], names(list_networks)[x], n_iter)
+})
 timings_all = lapply(all_out, function(o) o[[1]]) %>% bind_rows()
 props_all = lapply(all_out, function(o) o[[2]]) %>% bind_rows()
 
@@ -251,20 +255,6 @@ score_to_crossover = summary_dat[summary_dat$innovation == 'AC/BC',]
 score_to_crossover = score_to_crossover[order(score_to_crossover$med_epoch, decreasing = T),]
 dat$combined = factor(dat$combined, c(score_to_crossover$combined))
 
-# Plot time to cross-over
-crossdat = dat[dat$innovation == 'AC/BC',]
-colours = c('#922B21', '#633974', '#21618C', '#0E6655', '#9A7D0A', '#1C2833', '#EC407A')
-pdf(paste0(path_out, 'time_to_crossover.pdf'), 10, 20)
-ggplot(crossdat, aes(combined, log(epoch))) + 
-  geom_jitter(height = 0, colour = alpha(colours[crossdat$network_type %>% as.factor %>% as.integer], 0.4)) + 
-  geom_boxplot(outlier.colour = alpha('white', 0.0), 
-               fill = alpha('white', 0.7)) +
-  coord_flip() + 
-  facet_grid(pop_size ~., scales = 'free') +
-  labs(y = 'log time to crossover', x = 'network type') +
-  theme_light()
-dev.off()
-
 # Summarise diversity
 props_all$combined = paste(props_all$pop_size, props_all$network_type, props_all$degree, sep = '_')
 div = props_all %>% 
@@ -275,32 +265,6 @@ div$progress = ifelse(div$medicin %>% str_detect('2'), 2, 1)
 div$progress = ifelse(div$medicin %>% str_detect('3'), 3, div$progress)
 div$progress = ifelse(div$medicin %>% str_detect('C'), 4, div$progress)
 
-# Plot
-pdf(paste0(path_out, 'diversity.pdf'), 10, 7)
-for(type in levels(dat$combined)){ # plot in order of time to crossover
-  subdiv = div[div$combined == type,]
-  N = str_split(subdiv$combined, '_')[[1]][1] %>% as.numeric
-  print(
-    ggplot(subdiv, aes(timestep, proportion_mean, 
-                       colour = lineage, group = medicin, 
-                       size = as.factor(progress),
-                       lty = as.factor(progress))) +
-      geom_line(alpha = 0.8) +
-      scale_colour_manual(values = c('#388E3C', '#D32F2F')) +
-      scale_size_manual(values = c(0.8, 1.1, 1.5, 1.9), labels = c('1', '2', '3', 'C')) +
-      scale_linetype_manual(values = c(3, 4, 2, 1), labels = c('1', '2', '3', 'C')) +
-      labs(y = 'proportion population with given medicin', 
-           lty = 'stage medicin', size = 'stage medicin',
-           title = type) +
-      xlim(0, 200*N) +
-      ylim(0, 1) +
-      #scale_x_continuous(trans = 'log2') +
-      theme_light() +
-      theme(legend.key.size = unit(1.0, "cm")) 
-  )
-}
-dev.off()
-
 # Save the data
 timings_all = crossdat
 save(timings_all,
@@ -308,96 +272,8 @@ save(timings_all,
 save(div,
      file = paste0(path_out,'results_ABM1_div_', str_replace(Sys.time(), ' ', '_'), '.RData'))
 
-# Make diversity plots for individual runs !only save data for few runs! ----
+# Save data for diversity plots ----
+# !!!Only save data for few runs!!!, otherwise the file will be very large.
+# This data is needed to replicate the diversity plots.
+
 save(props_all, file = paste0(path_out, 'props_all.RData'))
-
-# Load data
-load('/Users/ssmeele/ownCloud/MultilevelSociality_CumulativeCulture/Code/ABM/ABM_R/output/model 1/props_all.RData')
-load('/Users/ssmeele/ownCloud/MultilevelSociality_CumulativeCulture/Code/ABM/ABM_R/output/model 1/results_ABM1_2020-08-14_13:06:41.RData')
-
-# Add columns
-props_all$lineage = ifelse(props_all$medicin %>% str_detect('A'), 'A', 'B')
-props_all$progress = ifelse(props_all$medicin %>% str_detect('2'), 2, 1)
-props_all$progress = ifelse(props_all$medicin %>% str_detect('3'), 3, div$progress)
-props_all$progress = ifelse(props_all$medicin %>% str_detect('C'), 4, div$progress)
-
-# Get distribution for full and multilevel network where N = 64 and K = 12
-full_64 = timings_all[timings_all$combined == '64_full_8',]
-multi_64_8 = timings_all[timings_all$combined == '64_multilevel_12',]
-dens(log(full_64$epoch))
-dens(log(multi_64_8$epoch))
-
-# Define modes on log scale
-full_mode = 6
-multi_first = 2.5
-multi_second = 6
-
-# Find representatives
-prox_mode = abs(log(full_64$epoch)-full_mode)
-full_rep = props_all[props_all$combined == '64_full_8' & 
-                       props_all$iteration ==  which(prox_mode == min(prox_mode))[1],]
-prox_mode = abs(log(multi_64_8$epoch)-multi_first)
-multi_rep1 = props_all[props_all$combined == '64_multilevel_12' & 
-                       props_all$iteration ==  which(prox_mode == min(prox_mode))[1],]
-prox_mode = abs(log(multi_64_8$epoch)-multi_second)
-multi_rep2 = props_all[props_all$combined == '64_multilevel_12' & 
-                       props_all$iteration ==  which(prox_mode == min(prox_mode))[1],]
-
-# Plot
-g1 = ggplot(full_rep, aes(epoch, proportion, 
-                      colour = lineage, group = medicin, 
-                      size = as.factor(progress),
-                      lty = as.factor(progress))) +
-    geom_line(alpha = 0.8) +
-    scale_colour_manual(values = c('#388E3C', '#D32F2F')) +
-    scale_size_manual(values = c(0.8, 1.1, 1.5, 1.9), labels = c('1', '2', '3', 'C')) +
-    scale_linetype_manual(values = c(3, 4, 2, 1), labels = c('1', '2', '3', 'C')) +
-    labs(y = '', x = '',
-         lty = 'stage medicin', size = 'stage medicin',
-         title = '') +
-    ylim(0, 1) +
-    scale_x_continuous(trans = 'log2', limits = c(1, 600)) +
-    theme_light() +
-    theme(legend.key.size = unit(1.0, "cm"),
-          axis.title.x=element_blank(),
-          axis.text.x=element_blank(),
-          axis.ticks.x=element_blank()) 
-
-g2 = ggplot(multi_rep2, aes(epoch, proportion, 
-                            colour = lineage, group = medicin, 
-                            size = as.factor(progress),
-                            lty = as.factor(progress))) +
-  geom_line(alpha = 0.8) +
-  scale_colour_manual(values = c('#388E3C', '#D32F2F')) +
-  scale_size_manual(values = c(0.8, 1.1, 1.5, 1.9), labels = c('1', '2', '3', 'C')) +
-  scale_linetype_manual(values = c(3, 4, 2, 1), labels = c('1', '2', '3', 'C')) +
-  labs(y = 'proportion population with given medicin', x = '',
-       lty = 'stage medicin', size = 'stage medicin',
-       title = '') +
-  ylim(0, 1) +
-  scale_x_continuous(trans = 'log2', limits = c(1, 600)) +
-  theme_light() +
-  theme(legend.key.size = unit(1.0, "cm"),
-        axis.title.x=element_blank(),
-        axis.text.x=element_blank(),
-        axis.ticks.x=element_blank()) 
-
-g3 = ggplot(multi_rep1, aes(epoch, proportion, 
-                         colour = lineage, group = medicin, 
-                         size = as.factor(progress),
-                         lty = as.factor(progress))) +
-  geom_line(alpha = 0.8) +
-  scale_colour_manual(values = c('#388E3C', '#D32F2F')) +
-  scale_size_manual(values = c(0.8, 1.1, 1.5, 1.9), labels = c('1', '2', '3', 'C')) +
-  scale_linetype_manual(values = c(3, 4, 2, 1), labels = c('1', '2', '3', 'C')) +
-  labs(y = '', 
-       lty = 'stage medicin', size = 'stage medicin',
-       title = '') +
-  ylim(0, 1) +
-  scale_x_continuous(trans = 'log2', limits = c(1, 600)) +
-  theme_light() +
-  theme(legend.key.size = unit(1.0, "cm")) 
-
-grid.arrange(g1, g2, g3)
-
-
