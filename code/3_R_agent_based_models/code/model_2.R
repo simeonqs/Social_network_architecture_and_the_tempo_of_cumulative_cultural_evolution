@@ -24,16 +24,16 @@ for(i in libraries){
 
 # Clean R
 rm(list=ls()) 
-dev.off()
+dev.off() # ignore the error message
 cat("\014")  
 
 # Paths
-path_networks = 'Social_network_architecture_and_the_rate_of_cumulative_cultural_evolution/code/3_R_agent_based_models/networks'
-path_out = 'Social_network_architecture_and_the_rate_of_cumulative_cultural_evolution/code/3_R_agent_based_models/output/model 2/'
+path_networks = '/Users/ssmeele/Library/Mobile Documents/com~apple~CloudDocs/Downloads/Social_network_architecture_and_the_tempo_of_cumulative_cultural_evolution-master/code/3_R_agent_based_models/networks'
+path_out = '/Users/ssmeele/Library/Mobile Documents/com~apple~CloudDocs/Downloads/Social_network_architecture_and_the_rate_of_cumulative_cultural_evolution/code/3_R_agent_based_models/output/model_1/'
 
 # Settings
-n_iter = 10000 # number of iterations
-n_cores = 40 # number of cores to use (needs to be 1 on Windows)
+n_iter = 10 # number of iterations
+n_cores = 4 # number of cores to use (needs to be 1 on Windows)
 
 # Read in networks
 list_networks = list.files(path_networks, full.names = T, pattern = '*pajek', recursive = T) %>% 
@@ -130,8 +130,8 @@ simCE = function(network, name_network, n_iter){
         agent_j = sample(as.character(options), 1, prob = weights) %>% as.numeric
         
         # Agents comparing notes, is a bit of a workaround, first find the unique names, then take the items
-        # from plants and combinations, then remove the ones where e.g. a plant name was not found in the combination
-        # list
+        # from plants and combinations, then remove the ones where e.g. a plant name was not found in the 
+        # combination list
         all_known = unique(c(names(agents_pockets[[agent_i]]), names(agents_pockets[[agent_j]])))
         new_pocket = append(plants[all_known], combinations[all_known]) 
         new_pocket = new_pocket[!is.na(names(new_pocket))]
@@ -216,58 +216,11 @@ simCE = function(network, name_network, n_iter){
 } # End simCE
 
 # Apply function to each network and bind the two dataframes
-timings_all = lapply(1:length(list_networks), function(x) 
-  simCE(list_networks[[x]], names(list_networks)[x], n_iter)) %>% bind_rows
+timings_all = lapply(1:length(list_networks), function(x){
+  if(length(list_networks) == 0) stop('List networks empty.You probably made a mistake in the path to the network folder.')
+  simCE(list_networks[[x]], names(list_networks)[x], n_iter)
+}) %>% bind_rows
 
 # Save the data
 save(timings_all,
      file = paste0(path_out,'results_ABM2_', str_replace(Sys.time(), ' ', '_'), '.RData'))
-
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-# PLOTTING ----
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-# Combine network_type, degree and pop_size, do colour and order popsize
-timings_all$combined = paste(timings_all$pop_size, timings_all$network_type, timings_all$degree, sep = '_')
-colours = c('#922B21', '#633974', '#21618C', '#0E6655', '#9A7D0A', '#1C2833', '#EC407A')
-timings_all$pop_size = factor(timings_all$pop_size, c('324', '144', '64'))
-
-# Plot time to crossover
-crossdat = timings_all[timings_all$first_or_50 == 'first',]
-summary_dat = crossdat %>% group_by(combined) %>% summarise(med_epoch = median(log(epoch)))
-summary_dat = summary_dat[order(summary_dat$med_epoch, decreasing = T),]
-crossdat$combined = factor(crossdat$combined, c(summary_dat$combined))
-pdf(paste0(path_out, 'time_to_crossover.pdf'), 10, 20)
-ggplot(crossdat, aes(combined, epoch)) + 
-  geom_jitter(height = 0, colour = alpha(colours[crossdat$network_type %>% as.factor %>% as.integer], 0.4)) + 
-  geom_boxplot(outlier.colour = alpha('white', 0.0), 
-               fill = alpha('white', 0.7)) +
-  scale_y_continuous(trans = 'log2') +
-  coord_flip() + 
-  facet_grid(pop_size ~., scales = 'free') +
-  labs(y = 'time to crossover', x = 'network type') +
-  theme_light()
-dev.off()
-
-# Plot time to 50% knows crossover
-dat_50 = timings_all[timings_all$first_or_50 == '50',]
-summary_dat = dat_50 %>% group_by(combined) %>% summarise(med_epoch = median(log(epoch)))
-summary_dat = summary_dat[order(summary_dat$med_epoch, decreasing = T),]
-dat_50$combined = factor(dat_50$combined, c(summary_dat$combined))
-pdf(paste0(path_out, 'time_to_50.pdf'), 10, 20)
-ggplot(dat_50, aes(combined, epoch)) + 
-  geom_jitter(height = 0, colour = alpha(colours[dat_50$network_type %>% as.factor %>% as.integer], 0.4)) + 
-  geom_boxplot(outlier.colour = alpha('white', 0.0), 
-               fill = alpha('white', 0.7)) +
-  scale_y_continuous(trans = 'log2') +
-  coord_flip() + 
-  facet_grid(pop_size ~., scales = 'free') +
-  labs(y = 'time to 50% knows crossover', x = 'network type') +
-  theme_light()
-dev.off()
-
-
-
-
-
-
