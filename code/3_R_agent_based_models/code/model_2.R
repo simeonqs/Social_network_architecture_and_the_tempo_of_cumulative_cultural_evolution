@@ -5,7 +5,10 @@
 # Author: Simeon Smeele
 # Description: This is the R version of the second agent based model in Cantor et al. 2020. It loads the 
 # networks and saves the results from the paths specified in the DATA section. It will install and load 
-# required packages. Make sure to update the paths to fit your folder location. 
+# required packages. 
+# Step 1: Change the paths in the DATA sections to fit your folder location.
+# Step 2 (optional): Change the settings in the DATA sections.
+# Step 3: Run the code selecting all and clicking 'Run' or line by line by clicking 'Run' multiple times. 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
