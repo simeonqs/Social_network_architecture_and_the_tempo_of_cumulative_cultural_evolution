@@ -5,6 +5,7 @@ graph types: clustered, degree, full, modular_and_clustered, modular, multilevel
 
 eg:
 ```bash
+cd "/YOUR/PATH/code/2_Python_agent_based_models"
 python3 M1.py "clustered"
 python3 M2.py "small_world"
 ```
