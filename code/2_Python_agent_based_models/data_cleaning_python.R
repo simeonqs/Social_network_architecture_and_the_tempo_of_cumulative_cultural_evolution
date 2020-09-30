@@ -3,13 +3,13 @@ setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
 #create df_TTC_m1
 {
-  df_1 = read.csv("migliano_model_data/TTC_clustered.csv")
-  df_2 = read.csv("migliano_model_data/TTC_degree.csv")
-  df_3 = read.csv("migliano_model_data/TTC_full.csv")
-  df_4 = read.csv("migliano_model_data/TTC_modularclustered.csv")
-  df_5 = read.csv("migliano_model_data/TTC_modular.csv")
-  df_6 = read.csv("migliano_model_data/TTC_multilevel.csv")
-  df_7 = read.csv("migliano_model_data/TTC_smallworld.csv")
+  df_1 = read.csv("m1/TTC_clustered.csv")
+  df_2 = read.csv("m1/TTC_degree.csv")
+  df_3 = read.csv("m1/TTC_full.csv")
+  df_4 = read.csv("m1/TTC_modularclustered.csv")
+  df_5 = read.csv("m1/TTC_modular.csv")
+  df_6 = read.csv("m1/TTC_multilevel.csv")
+  df_7 = read.csv("m1/TTC_smallworld.csv")
   
   df = rbind(df_1,df_2,df_3,df_4,df_5,df_6,df_7)
   df = df[df$discovery %in% c(7,14),]
@@ -29,13 +29,13 @@ setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
 #create df_TTC_m2
 {
-  df_1 = read.csv("dyad_diffusion_data/TTC_clustered.csv")
-  df_2 = read.csv("dyad_diffusion_data/TTC_degree.csv")
-  df_3 = read.csv("dyad_diffusion_data/TTC_full.csv")
-  df_4 = read.csv("dyad_diffusion_data/TTC_modularclustered.csv")
-  df_5 = read.csv("dyad_diffusion_data/TTC_modular.csv")
-  df_6 = read.csv("dyad_diffusion_data/TTC_multilevel.csv")
-  df_7 = read.csv("dyad_diffusion_data/TTC_smallworld.csv")
+  df_1 = read.csv("m2/TTC_clustered.csv")
+  df_2 = read.csv("m2/TTC_degree.csv")
+  df_3 = read.csv("m2/TTC_full.csv")
+  df_4 = read.csv("m2/TTC_modularclustered.csv")
+  df_5 = read.csv("m2/TTC_modular.csv")
+  df_6 = read.csv("m2/TTC_multilevel.csv")
+  df_7 = read.csv("m2/TTC_smallworld.csv")
   
   df = rbind(df_1,df_2,df_3,df_4,df_5,df_6,df_7)
   df = df[df$discovery %in% c(7,14),]
@@ -56,13 +56,13 @@ setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
 #create_df_TTD_m2
 {
-  df_1 = read.csv("dyad_diffusion_data/TTD_clustered.csv")
-  df_2 = read.csv("dyad_diffusion_data/TTD_degree.csv")
-  df_3 = read.csv("dyad_diffusion_data/TTD_full.csv")
-  df_4 = read.csv("dyad_diffusion_data/TTD_modularclustered.csv")
-  df_5 = read.csv("dyad_diffusion_data/TTD_modular.csv")
-  df_6 = read.csv("dyad_diffusion_data/TTD_multilevel.csv")
-  df_7 = read.csv("dyad_diffusion_data/TTD_smallworld.csv")
+  df_1 = read.csv("m2/TTD_clustered.csv")
+  df_2 = read.csv("m2/TTD_degree.csv")
+  df_3 = read.csv("m2/TTD_full.csv")
+  df_4 = read.csv("m2/TTD_modularclustered.csv")
+  df_5 = read.csv("m2/TTD_modular.csv")
+  df_6 = read.csv("m2/TTD_multilevel.csv")
+  df_7 = read.csv("m2/TTD_smallworld.csv")
   df = rbind(df_1,df_2,df_3,df_4,df_5,df_6,df_7)
   df$graph_type = as.character(df$graph_type)
   df = df %>% mutate(graph = strsplit(graph_type, '_'))
@@ -164,27 +164,7 @@ df_TTC_m2$graph = factor(df_TTC_m2$graph,
 df_TTC_TTD_m2$graph = factor(df_TTC_TTD_m2$graph, 
                              levels = c("random","small_world","lattice","modular","modular_lattice","multilevel","full"))
 
-#rename to try to avoid ggforest error
-levels(df_TTC_m1$degree)[levels(df_TTC_m1$degree)=="full"] <- "N-1"
-levels(df_TTC_m2$degree)[levels(df_TTC_m2$degree)=="full"] <- "N-1"
-levels(df_TTC_TTD_m2$degree)[levels(df_TTC_TTD_m2$degree)=="full"] <- "N-1"
-
-#uncomment to set degrees for fully connected networks
-#df_TTC_m1 = df_TTC_m1 %>% mutate(degree=as.character(degree))
-#df_TTC_m1 = df_TTC_m1 %>% mutate(degree=if_else(graph=="full",as.character(DEGREE),degree))
-#df_TTC_m1 = df_TTC_m1 %>% mutate(degree=factor(degree,levels=c("8","12","18","24","30","63","143","323")))
-
-#df_TTC_m2 = df_TTC_m2 %>% mutate(degree=as.character(degree))
-#df_TTC_m2 = df_TTC_m2 %>% mutate(degree=if_else(graph=="full",as.character(DEGREE),degree))
-#df_TTC_m2 = df_TTC_m2 %>% mutate(degree=factor(degree,levels=c("8","12","18","24","30","63","143","323")))
-
-#df_TTC_TTD_m2 = df_TTC_TTD_m2 %>% mutate(degree=as.character(degree))
-#df_TTC_TTD_m2 = df_TTC_TTD_m2 %>% mutate(degree=if_else(graph=="full",as.character(DEGREE),degree))
-#df_TTC_TTD_m2 = df_TTC_TTD_m2 %>% mutate(degree=factor(degree,levels=c("8","12","18","24","30","63","143","323")))
-
-#summary(df_TTC_TTD_m2$degree)
-#save files
-save(df_TTC_m1,file="df_TTC_m1.Rda")
-save(df_TTC_m2,file="df_TTC_m2.Rda")
-save(df_TTC_TTD_m2,file="df_TTC_TTD_m2.Rda")
+save(df_TTC_m1,file="../data/df_TTC_m1.Rda")
+save(df_TTC_m2,file="../data/df_TTC_m2.Rda")
+save(df_TTC_TTD_m2,file="../data/df_TTC_TTD_m2.Rda")
 
