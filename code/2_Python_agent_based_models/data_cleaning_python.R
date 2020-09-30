@@ -24,7 +24,6 @@ setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
   df$degree = factor(df$degree, levels=c("8","12", "18","24", "30", "full"))
   df$epoch = df$epoch+1
   df_TTC_m1 = df
-  save(df_TTC_m1, file="df_TTC_m1.Rda")
 }
 
 #create df_TTC_m2
@@ -51,7 +50,6 @@ setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
   df$degree = factor(df$degree, levels=c("8","12", "18","24", "30", "full"))
   df$epoch = df$epoch+1
   df_TTC_m2 = df
-  save(df_TTC_m2, file="df_TTC_m2.Rda")
 }
 
 #create_df_TTD_m2
@@ -75,7 +73,6 @@ setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
   summary(df)
   df$epoch = df$epoch+1
   df_TTD_m2 = df
-  save(df_TTD_m2, file="df_TTD_m2.Rda")
 }
 
 #create TTD-TTC
@@ -84,7 +81,6 @@ setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
   df2 = df_TTD_m2 %>% select(sim,graph_type,pop_size,graph,degree,epoch) %>% rename(epoch_TTD=epoch)
   df_TTC_TTD_m2 = left_join(df1,df2)
   df_TTC_TTD_m2 = df_TTC_TTD_m2 %>% mutate(delta_TTC_TTD=epoch_TTD-epoch_TTC)
-  save(df_TTC_TTD_m2,file="df_TTC_TTD_m2.Rda")
 }
 
 
