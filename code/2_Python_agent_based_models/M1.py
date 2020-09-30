@@ -183,12 +183,12 @@ def turnover_event(G):
 
 def create_csv():
     #writes header for main data
-    with open("migliano_model/data_"+str(graph_type)+".csv","w") as f:
+    with open("m1/data_"+str(graph_type)+".csv","w") as f:
         f.write("sim,timestep,epoch,graph_type,pop_size,agent_i,agent_j,discovery,innov_level,a_track,b_track\n")
 
 def create_csv_proportions():
     #writes header for main data
-    with open("migliano_model/proportions_"+str(graph_type)+".csv","w") as f:
+    with open("m1/proportions_"+str(graph_type)+".csv","w") as f:
         f.write("sim,epoch,graph_type,pop_size,count_A1,count_A2,count_A3,count_XA,count_B1,count_B2,count_B3,count_XB\n")
 
 def write_csv(sim_num,timestep,epoch,graph_condition,pop_size,agent_i,agent_j,discovery,innov_level,a_track,b_track):
