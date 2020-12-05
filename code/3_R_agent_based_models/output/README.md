@@ -1,1 +1,0 @@
-This folder contains two folderd. One for each agent based model. The results are not included, since they are too large for the Github repository. If you run the code, the results will be stored in the correct folder. 
