@@ -1,0 +1,1 @@
+This is the R code to generate the networks. There are two folders one with the code, and one with the results. The results will only contain summaries and plots. The actual networks are written to the data folders of two agent based models (Python and R). 
