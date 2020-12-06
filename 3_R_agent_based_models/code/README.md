@@ -1,0 +1,1 @@
+This folder contains the R version for the two agent based models. To run the code, open the .R file and follow the instructions in the file. You need to change the path inside the file to fit your folder location. The code will install missing packages automatically. 
