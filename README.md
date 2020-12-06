@@ -6,3 +6,5 @@ The folders contain:
 2. The Python code to run the agent based models
 3. The R code to run the agent based models
 4. The R code to create the figures
+
+WARNING: The code is still under development to ensure that it writes to the correct folders and works with the latest versions of R and Python. 
