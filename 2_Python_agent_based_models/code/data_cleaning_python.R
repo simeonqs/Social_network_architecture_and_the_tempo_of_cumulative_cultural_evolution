@@ -3,13 +3,13 @@ setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
 #create df_TTC_m1
 {
-  df_1 = read.csv("m1/TTC_clustered.csv")
-  df_2 = read.csv("m1/TTC_degree.csv")
-  df_3 = read.csv("m1/TTC_full.csv")
-  df_4 = read.csv("m1/TTC_modularclustered.csv")
-  df_5 = read.csv("m1/TTC_modular.csv")
-  df_6 = read.csv("m1/TTC_multilevel.csv")
-  df_7 = read.csv("m1/TTC_smallworld.csv")
+  df_1 = read.csv("../results/m1/TTC_clustered.csv")
+  df_2 = read.csv("../results/m1/TTC_degree.csv")
+  df_3 = read.csv("../results/m1/TTC_full.csv")
+  df_4 = read.csv("../results/m1/TTC_modularclustered.csv")
+  df_5 = read.csv("../results/m1/TTC_modular.csv")
+  df_6 = read.csv("../results/m1/TTC_multilevel.csv")
+  df_7 = read.csv("../results/m1/TTC_smallworld.csv")
   
   df = rbind(df_1,df_2,df_3,df_4,df_5,df_6,df_7)
   df = df[df$discovery %in% c(7,14),]
@@ -28,13 +28,13 @@ setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
 #create df_TTC_m2
 {
-  df_1 = read.csv("m2/TTC_clustered.csv")
-  df_2 = read.csv("m2/TTC_degree.csv")
-  df_3 = read.csv("m2/TTC_full.csv")
-  df_4 = read.csv("m2/TTC_modularclustered.csv")
-  df_5 = read.csv("m2/TTC_modular.csv")
-  df_6 = read.csv("m2/TTC_multilevel.csv")
-  df_7 = read.csv("m2/TTC_smallworld.csv")
+  df_1 = read.csv("../results/m2/TTC_clustered.csv")
+  df_2 = read.csv("../results/m2/TTC_degree.csv")
+  df_3 = read.csv("../results/m2/TTC_full.csv")
+  df_4 = read.csv("../results/m2/TTC_modularclustered.csv")
+  df_5 = read.csv("../results/m2/TTC_modular.csv")
+  df_6 = read.csv("../results/m2/TTC_multilevel.csv")
+  df_7 = read.csv("../results/m2/TTC_smallworld.csv")
   
   df = rbind(df_1,df_2,df_3,df_4,df_5,df_6,df_7)
   df = df[df$discovery %in% c(7,14),]
@@ -54,13 +54,13 @@ setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
 #create_df_TTD_m2
 {
-  df_1 = read.csv("m2/TTD_clustered.csv")
-  df_2 = read.csv("m2/TTD_degree.csv")
-  df_3 = read.csv("m2/TTD_full.csv")
-  df_4 = read.csv("m2/TTD_modularclustered.csv")
-  df_5 = read.csv("m2/TTD_modular.csv")
-  df_6 = read.csv("m2/TTD_multilevel.csv")
-  df_7 = read.csv("m2/TTD_smallworld.csv")
+  df_1 = read.csv("../results/m2/TTD_clustered.csv")
+  df_2 = read.csv("../results/m2/TTD_degree.csv")
+  df_3 = read.csv("../results/m2/TTD_full.csv")
+  df_4 = read.csv("../results/m2/TTD_modularclustered.csv")
+  df_5 = read.csv("../results/m2/TTD_modular.csv")
+  df_6 = read.csv("../results/m2/TTD_multilevel.csv")
+  df_7 = read.csv("../results/m2/TTD_smallworld.csv")
   df = rbind(df_1,df_2,df_3,df_4,df_5,df_6,df_7)
   df$graph_type = as.character(df$graph_type)
   df = df %>% mutate(graph = strsplit(graph_type, '_'))
