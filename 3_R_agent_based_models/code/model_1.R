@@ -1,7 +1,7 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # Project: Cantor et al. 2020
 # Date started: 04-07-2020
-# Date last modified: 28-09-2020
+# Date last modified: 09-12-2020
 # Author: Simeon Quirinus Smeele
 # Description: This is the R version of the first agent based model in Cantor et al. 2020. It loads the 
 # networks and saves the results from the paths specified in the DATA section. It will install and load 
