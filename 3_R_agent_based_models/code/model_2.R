@@ -1,14 +1,13 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # Project: Cantor et al. 2020
 # Date started: 04-07-2020
-# Date last modified: 28-09-2020
+# Date last modified: 09-12-2020
 # Author: Simeon Smeele
 # Description: This is the R version of the second agent based model in Cantor et al. 2020. It loads the 
 # networks and saves the results from the paths specified in the DATA section. It will install and load 
 # required packages. 
-# Step 1: Change the paths in the DATA sections to fit your folder location.
-# Step 2 (optional): Change the settings in the DATA sections.
-# Step 3: Run the code selecting all and clicking 'Run' or line by line by clicking 'Run' multiple times. 
+# Step 1 (optional): Change the settings in the DATA sections.
+# Step 2: Run the code selecting all and clicking 'Run' or line by line by clicking 'Run' multiple times. 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -28,8 +27,9 @@ dev.off() # ignore the error message
 cat("\014")  
 
 # Paths
-path_networks = '/Users/ssmeele/Library/Mobile Documents/com~apple~CloudDocs/Downloads/Social_network_architecture_and_the_tempo_of_cumulative_cultural_evolution-master/code/3_R_agent_based_models/networks'
-path_out = '/Users/ssmeele/Library/Mobile Documents/com~apple~CloudDocs/Downloads/Social_network_architecture_and_the_rate_of_cumulative_cultural_evolution/code/3_R_agent_based_models/output/model_1/'
+setwd(str_remove(dirname(rstudioapi::getActiveDocumentContext()$path), '/code'))
+path_networks = 'networks'
+path_out = 'output/model_1/'
 
 # Settings
 n_iter = 10 # number of iterations
