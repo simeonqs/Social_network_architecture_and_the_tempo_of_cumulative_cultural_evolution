@@ -6,9 +6,8 @@
 # Description: This is the R version of the first agent based model in Cantor et al. 2020. It loads the 
 # networks and saves the results from the paths specified in the DATA section. It will install and load 
 # required packages. 
-# Step 1: Change the paths in the DATA sections to fit your folder location.
-# Step 2 (optional): Change the settings in the DATA sections.
-# Step 3: Run the code selecting all and clicking 'Run' or line by line by clicking 'Run' multiple times. 
+# Step 1 (optional): Change the settings in the DATA sections.
+# Step 2: Run the code selecting all and clicking 'Run' or line by line by clicking 'Run' multiple times. 
 # WARNING: Last line saves the data needed to create the diversity plot. Only save this for a few iterations
 # otherwise the file will be very large. 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -30,8 +29,9 @@ dev.off() # ignore the error message
 cat("\014")  
 
 # Paths
-path_networks = '/Users/ssmeele/Library/Mobile Documents/com~apple~CloudDocs/Downloads/Social_network_architecture_and_the_tempo_of_cumulative_cultural_evolution-master/code/3_R_agent_based_models/networks'
-path_out = '/Users/ssmeele/Library/Mobile Documents/com~apple~CloudDocs/Downloads/Social_network_architecture_and_the_tempo_of_cumulative_cultural_evolution-master/code/3_R_agent_based_models/output/model_1/'
+setwd(str_remove(dirname(rstudioapi::getActiveDocumentContext()$path), '/code'))
+path_networks = 'networks'
+path_out = 'output/model_1/'
 
 # Settings
 n_iter = 3 # number of iterations
@@ -266,7 +266,6 @@ div$progress = ifelse(div$medicin %>% str_detect('3'), 3, div$progress)
 div$progress = ifelse(div$medicin %>% str_detect('C'), 4, div$progress)
 
 # Save the data
-timings_all = crossdat
 save(timings_all,
      file = paste0(path_out,'results_ABM1_', str_replace(Sys.time(), ' ', '_'), '.RData'))
 save(div,
