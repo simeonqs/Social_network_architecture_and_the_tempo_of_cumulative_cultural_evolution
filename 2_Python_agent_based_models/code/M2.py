@@ -191,17 +191,17 @@ def turnover_event(G):
 
 def create_csv():
     #writes header for main data
-    with open("results/m2/data_"+str(graph_type)+".csv","w") as f:
+    with open("results/m2/TTC_"+str(graph_type)+".csv","w") as f:
         f.write("sim,timestep,epoch,graph_type,pop_size,agent_i,agent_j,discovery,innov_level,a_track,b_track\n")
 
 def create_csv_proportions():
     #writes header for main data
-    with open("results/m2/proportions_"+str(graph_type)+".csv","w") as f:
+    with open("results/m2/TTD_"+str(graph_type)+".csv","w") as f:
         f.write("sim,epoch,graph_type,pop_size,count_A1,count_A2,count_A3,count_XA,count_B1,count_B2,count_B3,count_XB\n")
 
 def write_csv(sim_num,timestep,epoch,graph_condition,pop_size,agent_i,agent_j,discovery,innov_level,a_track,b_track):
     #writes row of data
-    with open("results/m2/data_"+str(graph_type)+".csv","a") as f:
+    with open("results/m2/TTC_"+str(graph_type)+".csv","a") as f:
         f.write("{},{},{},{},{},{},{},{},{},{},{}\n".format(sim_num,timestep,epoch,graph_condition,pop_size,agent_i,agent_j,discovery,innov_level,a_track,b_track))
 
 def count_pockets(G,sim_num,epoch,graph_condition,pop_size,crossover_diffused):
@@ -227,7 +227,7 @@ def count_pockets(G,sim_num,epoch,graph_condition,pop_size,crossover_diffused):
     if count_XA >= (pop_size/2)+1 or count_XB >= (pop_size/2)+1:
         print("Crossover has reached more than half of the population at epoch {}".format(epoch))
         crossover_diffused = True
-        with open("results/m2/proportions_"+str(graph_type)+".csv","a") as f:
+        with open("results/m2/TTD_"+str(graph_type)+".csv","a") as f:
             f.write("{},{},{},{},{},{},{},{},{},{},{},{}\n".format(sim_num,epoch,graph_condition,pop_size,count_A1,count_A2,count_A3,count_XA,count_B1,count_B2,count_B3,count_XB))
     return crossover_diffused
 
