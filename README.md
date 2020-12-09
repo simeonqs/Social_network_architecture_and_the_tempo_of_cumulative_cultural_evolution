@@ -7,4 +7,10 @@ The folders contain:
 3. The R code to run the agent based models
 4. The R code to create the figures
 
+For questions about the code contact:
+1. dfarine@ab.mpg.de
+2. mchimento@ab.mpg.de
+3. ssmeele@ab.mpg.de
+4. mcantor@ab.mpg.de
+
 WARNING: The code is still under development to ensure that it writes to the correct folders and works with the latest versions of R and Python. 
