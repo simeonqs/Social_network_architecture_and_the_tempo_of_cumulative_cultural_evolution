@@ -86,37 +86,37 @@ setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
 #prep df with network information
 {
-  df1 = read.csv("network_properties/DETAILS_d8_N_64.csv")
+  df1 = read.csv("../network_properties/DETAILS_d8_N_64.csv")
   df1$pop_size=64
   df1$degree=8
-  df2 = read.csv("network_properties/DETAILS_d8_N_144.csv")
+  df2 = read.csv("../network_properties/DETAILS_d8_N_144.csv")
   df2$pop_size=144
   df2$degree=8
-  df3 = read.csv("network_properties/DETAILS_d8_N_324.csv")
+  df3 = read.csv("../network_properties/DETAILS_d8_N_324.csv")
   df3$pop_size=324
   df3$degree=8
-  df4 = read.csv("network_properties/DETAILS_d12_N_64.csv")
+  df4 = read.csv("../network_properties/DETAILS_d12_N_64.csv")
   df4$pop_size=64
   df4$degree=12
-  df5 = read.csv("network_properties/DETAILS_d12_N_144.csv")
+  df5 = read.csv("../network_properties/DETAILS_d12_N_144.csv")
   df5$pop_size=144
   df5$degree=12
-  df6 = read.csv("network_properties/DETAILS_d12_N_324.csv")
+  df6 = read.csv("../network_properties/DETAILS_d12_N_324.csv")
   df6$pop_size=324
   df6$degree=12
-  df7 = read.csv("network_properties/DETAILS_d18_N_144.csv")
+  df7 = read.csv("../network_properties/DETAILS_d18_N_144.csv")
   df7$pop_size=144
   df7$degree=18
-  df8 = read.csv("network_properties/DETAILS_d18_N_324.csv")
+  df8 = read.csv("../network_properties/DETAILS_d18_N_324.csv")
   df8$pop_size=324
   df8$degree=18
-  df9 = read.csv("network_properties/DETAILS_d24_N_144.csv")
+  df9 = read.csv("../network_properties/DETAILS_d24_N_144.csv")
   df9$pop_size=144
   df9$degree=24
-  df10 = read.csv("network_properties/DETAILS_d24_N_324.csv")
+  df10 = read.csv("../network_properties/DETAILS_d24_N_324.csv")
   df10$pop_size=324
   df10$degree=24
-  df11 = read.csv("network_properties/DETAILS_d30_N_324.csv")
+  df11 = read.csv("../network_properties/DETAILS_d30_N_324.csv")
   df11$pop_size=324
   df11$degree=30
   
@@ -134,12 +134,12 @@ setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
 
 #load data
-load("df_TTC_m1.Rda")
-df_TTC_m1 = df_TTC_m1 %>% droplevels()
-load("df_TTC_m2.Rda")
-df_TTC_m2 = df_TTC_m2 %>% droplevels()
-load("df_TTC_TTD_m2.Rda")
-df_TTC_TTD_m2 = df_TTC_TTD_m2 %>% droplevels()
+#load("df_TTC_m1.Rda")
+#df_TTC_m1 = df_TTC_m1 %>% droplevels()
+#load("df_TTC_m2.Rda")
+#df_TTC_m2 = df_TTC_m2 %>% droplevels()
+#load("df_TTC_TTD_m2.Rda")
+#df_TTC_TTD_m2 = df_TTC_TTD_m2 %>% droplevels()
 
 #rename to those used in figures
 levels(df_TTC_m1$graph) <- c("lattice","random","full","modular_lattice","modular","multilevel","small_world") 
