@@ -23,5 +23,16 @@ You can install them with:
 pip3 install numpy
 ```
 
-MISSING:
-- SESSION INFO 
+Latest tested on:
+
+{'commit_hash': 'f7f2eae63',
+ 'commit_source': 'installation',
+ 'default_encoding': 'UTF-8',
+ 'ipython_path': '/usr/local/lib/python3.7/site-packages/IPython',
+ 'ipython_version': '7.10.2',
+ 'os_name': 'posix',
+ 'platform': 'Darwin-18.7.0-x86_64-i386-64bit',
+ 'sys_executable': '/usr/local/opt/python/bin/python3.7',
+ 'sys_platform': 'darwin',
+ 'sys_version': '3.7.7 (default, Mar 10 2020, 15:43:03) \n'
+                '[Clang 11.0.0 (clang-1100.0.33.17)]'}
