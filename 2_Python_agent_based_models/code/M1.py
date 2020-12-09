@@ -83,7 +83,7 @@ class agent:
         return list(production)
 
 def get_graphs(graph_type):
-    graph_files = [join("networks",graph_type,file) for file in listdir("networks/{}".format(graph_type)) if not file.startswith('.')]
+    graph_files = [join("../networks",graph_type,file) for file in listdir("../networks/{}".format(graph_type)) if not file.startswith('.')]
     return graph_files
 
 def choose_dyad(G,focal):
