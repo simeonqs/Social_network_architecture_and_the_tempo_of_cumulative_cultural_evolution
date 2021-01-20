@@ -91,7 +91,7 @@ summary(df_TTC_m1$epoch)
     theme_minimal()+
     theme(axis.text.x = element_blank())
   m1_heatmap
-  ggsave("results/cox_ph_output/arch_performance_heatmap_GLM.pdf",height=7,width=17.8,units="cm",scale=1.5)
+  ggsave("../results/arch_performance_heatmap_GLM.pdf",height=7,width=17.8,units="cm",scale=1.5)
 }
 
 
@@ -176,7 +176,7 @@ summary(df_TTC_m1$epoch)
     theme(axis.text.x = element_blank(),strip.background = element_blank(),
           strip.text.x = element_blank())
   m2_heatmap
-  ggsave("cox_ph_output/arch_performance_heatmap_m2.pdf",height=7,width=17.8,units="cm",scale=1.5)
+  ggsave("../results/arch_performance_heatmap_m2.pdf",height=7,width=17.8,units="cm",scale=1.5)
   
 }
 
@@ -253,9 +253,9 @@ summary(df_TTC_m1$epoch)
     theme(axis.text.x = element_text(angle = 20,hjust=1),strip.background = element_blank(),
           strip.text.x = element_blank())
   m2_heatmap_TTD
-  ggsave("cox_ph_output/arch_performance_heatmap_m2_TTD.pdf",height=7,width=17.8,units="cm",scale=1.5)
+  ggsave("../results/arch_performance_heatmap_m2_TTD.pdf",height=7,width=17.8,units="cm",scale=1.5)
 }
 
 ggarrange(m1_heatmap,m2_heatmap,m2_heatmap_TTD,labels=c("A","B","C"), ncol=1)
-ggsave("../output/arch_performance_heatmap_rawTTD_GLM.png",height=15,width=17.8,units="cm",scale=1.5)
-ggsave("../output/arch_performance_heatmap_rawTTD_GLM.pdf",height=15,width=17.8,units="cm",scale=1.5)
+ggsave("../results/arch_performance_heatmap_rawTTD_GLM.png",height=15,width=17.8,units="cm",scale=1.5)
+ggsave("../results/arch_performance_heatmap_rawTTD_GLM.pdf",height=15,width=17.8,units="cm",scale=1.5)
