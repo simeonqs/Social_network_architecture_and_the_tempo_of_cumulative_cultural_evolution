@@ -1,0 +1,663 @@
+######## FIGURE S1 ###########
+
+
+
+# 1. LOADING --------------------------------------------------------------
+
+
+# packages
+if(!require(igraph)){install.packages('igraph'); library(igraph)}
+if(!require(GGally)){install.packages('GGally'); library(GGally)}
+if(!require(sna)){install.packages('sna'); library(sna)}
+if(!require(viridis)){install.packages('viridis'); library(viridis)}
+if(!require(gridExtra)){install.packages('gridExtra'); library(gridExtra)}
+if(!require(tidyverse)){install.packages('tidyverse'); library(tidyverse)}
+if(!require(survival)){install.packages('survival'); library(survival)}
+if(!require(survminer)){install.packages('survminer'); library(survminer)}
+if(!require(ggridges)){install.packages('ggridges'); library(ggridges)}
+if(!require(grid)){install.packages('grid'); library(grid)}
+
+
+# set colour palette
+colviridis = viridis(7, begin = 0, end = 1, direction = 1, option = 'viridis')
+alphaviridis = seq(from=0.1, to=1, by=0.1)
+matviridis = matrix(NA, nrow = length(colviridis), ncol=length(alphaviridis))
+rownames(matviridis) = c("FULL","SMALLWORLD","DEGREE","CLUSTERED","MODULAR","MOD_CLUST","MULTILEVEL")
+for(i in 1:length(colviridis)){
+  for(j in 1:length(alphaviridis)){
+    matviridis[i,j] = alpha(colviridis[i], alphaviridis[j])
+  }
+}  
+
+# reset full to greyscale
+for(j in 1:length(alphaviridis)){
+  matviridis[1,j]  = alpha('grey75', alphaviridis[j])
+}
+
+
+
+# 2. DIVERSITY  --------------------------------------------------------
+
+# load results 
+#load('results_ABM1_div_2020-07-23_16_57_33')
+
+head(div)
+
+# pick the cases for small (N=64) and sparse (K=12) populations
+
+## FULL ##
+typefull = "64_full_8"
+subdiv = div[div$combined == typefull,]
+N = str_split(subdiv$combined, '_')[[1]][1] %>% as.numeric
+
+divfull = ggplot(subdiv, aes(timestep, proportion_mean, 
+                       colour = lineage, group = medicin, 
+                       size = as.factor(progress),
+                       lty = as.factor(progress))) +
+      geom_line(alpha = 0.8) +
+      scale_colour_manual(values = c(as.character(matviridis[1,2]), as.character(matviridis[1,10]))) +
+      scale_size_manual(values = c(0.8, 1.1, 1.5, 1.9), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
+      scale_linetype_manual(values = c(3, 4, 2, 1), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
+      labs(y = '', x = '',
+           lty = '', size = '',
+           title ='Fully connected') +
+      xlim(0, 200*N) +
+      ylim(0, 1) +
+      theme_light() +
+      theme(legend.key.size = unit(1.0, "cm"), legend.position = "none", text=element_text(size=12))
+
+
+## RANDOM ##
+    typerand = "64_degree_12"
+subdiv = div[div$combined == typerand,]
+N = str_split(subdiv$combined, '_')[[1]][1] %>% as.numeric
+
+divrand = ggplot(subdiv, aes(timestep, proportion_mean, 
+                       colour = lineage, group = medicin, 
+                       size = as.factor(progress),
+                       lty = as.factor(progress))) +
+      geom_line(alpha = 0.8) +
+      scale_colour_manual(values = c(as.character(matviridis[2,2]), as.character(matviridis[2,10]))) +
+      scale_size_manual(values = c(0.8, 1.1, 1.5, 1.9), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
+      scale_linetype_manual(values = c(3, 4, 2, 1), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
+      labs(y = '', x = '', #Proportion of the population with a given trait
+           lty = '', size = '',
+           title ='Random') +
+      xlim(0, 200*N) +
+      ylim(0, 1) +
+      theme_light() +
+      theme(legend.key.size = unit(1.0, "cm"), legend.position = "none", text=element_text(size=14)) 
+
+
+
+## multilevel ##
+
+typemls = "64_multilevel_12"
+subdiv = div[div$combined == typemls,]
+N = str_split(subdiv$combined, '_')[[1]][1] %>% as.numeric
+
+divmls = ggplot(subdiv, aes(timestep, proportion_mean, 
+                       colour = lineage, group = medicin, 
+                       size = as.factor(progress),
+                       lty = as.factor(progress))) +
+      geom_line(alpha = 0.8) +
+      scale_colour_manual(values = c(as.character(matviridis[7,2]), as.character(matviridis[7,10]))) +
+      scale_size_manual(values = c(0.8, 1.1, 1.5, 1.9), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
+      scale_linetype_manual(values = c(3, 4, 2, 1), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
+      labs(y = '', x = 'Epoch',
+           lty = '', size = '',
+           title ='Multilevel') +
+      xlim(0, 200*N) +
+      ylim(0, 1) +
+      theme_light() +
+      theme(legend.key.size = unit(1.0, "cm"), legend.position = "none", text=element_text(size=12)) 
+    
+
+## small world ##
+
+typesw = "64_smallworld_12"
+subdiv = div[div$combined == typesw,]
+N = str_split(subdiv$combined, '_')[[1]][1] %>% as.numeric
+
+divsw = ggplot(subdiv, aes(timestep, proportion_mean, 
+                       colour = lineage, group = medicin, 
+                       size = as.factor(progress),
+                       lty = as.factor(progress))) +
+      geom_line(alpha = 0.8) +
+      scale_colour_manual(values = c(as.character(matviridis[3,2]), as.character(matviridis[3,10]))) +
+      scale_size_manual(values = c(0.8, 1.1, 1.5, 1.9), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
+      scale_linetype_manual(values = c(3, 4, 2, 1), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
+      labs(y = '', x = '',
+           lty = '', size = '',
+           title ='Small world') +
+      xlim(0, 200*N) +
+      ylim(0, 1) +
+      theme_light() +
+      theme(legend.key.size = unit(1.0, "cm"), legend.position = "none", text=element_text(size=12)) 
+
+
+
+
+## Lattice ##
+
+typeclu = "64_clustered_12"
+subdiv = div[div$combined == typeclu,]
+N = str_split(subdiv$combined, '_')[[1]][1] %>% as.numeric
+
+divclu = ggplot(subdiv, aes(timestep, proportion_mean, 
+                       colour = lineage, group = medicin, 
+                       size = as.factor(progress),
+                       lty = as.factor(progress))) +
+      geom_line(alpha = 0.8) +
+      scale_colour_manual(values = c(as.character(matviridis[4,2]), as.character(matviridis[4,10]))) +
+      scale_size_manual(values = c(0.8, 1.1, 1.5, 1.9), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
+      scale_linetype_manual(values = c(3, 4, 2, 1), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
+      labs(y = '', x = '',
+           lty = '', size = '',
+           title ='Lattice') +
+      xlim(0, 200*N) +
+      ylim(0, 1) +
+      theme_light() +
+      theme(legend.key.size = unit(1.0, "cm"), legend.position = "none", text=element_text(size=12)) 
+
+
+## Modular ##
+
+typemod = "64_modular_12"
+subdiv = div[div$combined == typemod,]
+N = str_split(subdiv$combined, '_')[[1]][1] %>% as.numeric
+
+divmod = ggplot(subdiv, aes(timestep, proportion_mean, 
+                       colour = lineage, group = medicin, 
+                       size = as.factor(progress),
+                       lty = as.factor(progress))) +
+      geom_line(alpha = 0.8) +
+      scale_colour_manual(values = c(as.character(matviridis[5,2]), as.character(matviridis[5,10]))) +
+      scale_size_manual(values = c(0.8, 1.1, 1.5, 1.9), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
+      scale_linetype_manual(values = c(3, 4, 2, 1), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
+      labs(y = '', x = '',
+           lty = '', size = '',
+           title ='Modular') +
+      xlim(0, 200*N) +
+      ylim(0, 1) +
+      theme_light() +
+      theme(legend.key.size = unit(1.0, "cm"), legend.position = "none", text=element_text(size=12)) 
+
+
+
+## Modular lattice ##
+
+typemocl = "64_modularclustered_12"
+subdiv = div[div$combined == typemocl,]
+N = str_split(subdiv$combined, '_')[[1]][1] %>% as.numeric
+
+divmocl = ggplot(subdiv, aes(timestep, proportion_mean, 
+                       colour = lineage, group = medicin, 
+                       size = as.factor(progress),
+                       lty = as.factor(progress))) +
+      geom_line(alpha = 0.8) +
+      scale_colour_manual(values = c(as.character(matviridis[6,2]), as.character(matviridis[6,10]))) +
+      scale_size_manual(values = c(0.8, 1.1, 1.5, 1.9), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
+      scale_linetype_manual(values = c(3, 4, 2, 1), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
+      labs(y = '', x = '',
+           lty = '', size = '',
+           title ='Modular lattice') +
+      xlim(0, 200*N) +
+      ylim(0, 1) +
+      theme_light() +
+      theme(legend.key.size = unit(1.0, "cm"), legend.position = "none", text=element_text(size=12)) 
+
+
+
+
+    
+
+
+
+# 3. NETWORKS N=64 --------------------------------------------------------
+
+
+# CREATING NETWORKS N=64, K=12
+
+set.seed(123)
+N <- 64
+degree <- 12
+
+# Details
+details <- data.frame(type=c("FULL","SMALLWORLD","DEGREE","CLUSTERED","MODULAR","MOD_CLUST","MULTILEVEL"), DENSITY=NA, DEGREE=NA, CLUSTERING=NA, MODULARITY=NA, MEAN_DISTANCE=NA)
+
+
+# Function to make a lattice (with no boundaries)
+lattice <- function(N1, N2, degree, plot=FALSE) {
+	N <- N1*N2
+	xy <- expand.grid(x=1:N1, y=1:N2)
+	network <- matrix(0, N, N)
+	for (i in 1:nrow(xy)) {
+		xy.tmp <- xy
+		xy.tmp$x <- xy.tmp$x[i] - xy.tmp$x
+		xy.tmp$y <- xy.tmp$y[i]- xy.tmp$y
+		xy.tmp$x[xy.tmp$x <= -(max(xy$x)-2)] <- max(xy$x) + xy.tmp$x[xy.tmp$x <= -(max(xy$x)-2)]
+		xy.tmp$y[xy.tmp$y <= -(max(xy$x)-2)] <- max(xy$y) + xy.tmp$y[xy.tmp$y <= -(max(xy$x)-2)]
+		xy.tmp$x[xy.tmp$x >= (max(xy$x)-3)] <- max(xy$x) - xy.tmp$x[xy.tmp$x >= (max(xy$x)-3)]
+		xy.tmp$y[xy.tmp$y >= (max(xy$x)-3)] <- max(xy$y) - xy.tmp$y[xy.tmp$y >= (max(xy$x)-3)]
+		dist <- sqrt((xy.tmp$x-xy.tmp$x[i])^2 + (xy.tmp$y-xy.tmp$y[i])^2)
+		network[i,order(dist)[1:((degree)+1)]] <- 1
+		network[order(dist)[1:((degree)+1)],i] <- 1
+	}
+	diag(network) <- 0
+
+	if (mean(rowSums(network)) > degree) {
+		edges <- which(network>0, arr.ind=TRUE)
+		edges <- edges[which(edges[,1] < edges[,2]),]
+		edges.to.remove <- nrow(edges)-degree*N/2
+		remove <- round(seq(1,nrow(edges),length.out=edges.to.remove))
+		edges <- edges[remove,]
+		network[cbind(edges[,1],edges[,2])]<-0
+		network[cbind(edges[,2],edges[,1])]<-0
+	}
+
+	if (plot) plot(graph.adjacency(network,mode="undirected"), layout=as.matrix(xy.tmp),vertex.size=1)
+	
+	return(network)
+}
+
+
+
+## FULLY CONNECTED ##
+
+network <- matrix(1, nrow=N, ncol=N)
+diag(network) <- 0
+d <- graph.adjacency(network,mode="undirected",diag=FALSE)
+zz <- 1
+details$CLUSTERING[zz] <- transitivity(d)
+details$DEGREE[zz] <- mean(igraph::degree(d))
+details$MODULARITY[zz] <- modularity(fastgreedy.community(d))
+details$DENSITY[zz] <- edge_density(d)
+details$MEAN_DISTANCE[zz] <- mean_distance(d)
+
+## new layout
+net <- as.network(network, 
+                 matrix.type='adjacency',
+                 directed = F,
+                 ignore.eval=FALSE,
+                 names.eval='weight')
+full = ggnet2(net,
+       color = matviridis[1,][fastgreedy.community(d)$membership],
+       size = .7, 
+       edge.size = 0.5,
+       edge.color = 'grey50',
+       edge.alpha = 0.2,
+       mode = 'kamadakawai',
+       label= NA,
+       label.size=0,
+       legend.position = 0,
+       legend.size = 0
+       ) + ggtitle('Fully connected')
+
+
+
+## RANDOM ##
+
+## Degree controlled only (low transitivity, low modularity)
+
+d <- sample_k_regular(N,degree)
+zz <- 3
+details$CLUSTERING[zz] <- transitivity(d)
+details$DEGREE[zz] <- mean(igraph::degree(d))
+details$MODULARITY[zz] <- modularity(fastgreedy.community(d))
+details$DENSITY[zz] <- edge_density(d)
+details$MEAN_DISTANCE[zz] <- mean_distance(d)
+
+network <- as.matrix(as_adjacency_matrix(d))
+
+## new layout
+net <- as.network(network, 
+                 matrix.type='adjacency',
+                 directed = F,
+                 ignore.eval=FALSE,
+                 names.eval='weight')
+degr = ggnet2(net,
+       color = matviridis[3,][fastgreedy.community(d)$membership],
+       alpha = 0.9, 
+       size = 2.5, 
+       edge.size = 0.5,
+       edge.color = 'grey32',
+       edge.alpha = 0.4,
+       mode = 'kamadakawai',
+       label= NA,
+       label.size=0,
+       legend.position = 0,
+       legend.size = 0
+       )+ ggtitle('Random')
+
+
+
+
+
+## SMALL WORLD ##
+
+d <- sample_smallworld(1, N, degree/2, 0.05)
+
+network <- as.matrix(as_adjacency_matrix(d))
+zz <- 2
+details$CLUSTERING[zz] <- transitivity(d)
+details$DEGREE[zz] <- mean(igraph::degree(d))
+details$MODULARITY[zz] <- modularity(fastgreedy.community(d))
+details$DENSITY[zz] <- edge_density(d)
+details$MEAN_DISTANCE[zz] <- mean_distance(d)
+
+## new layout
+net <- as.network(network, 
+                 matrix.type='adjacency',
+                 directed = F,
+                 ignore.eval=FALSE,
+                 names.eval='weight')
+small = ggnet2(net,
+       color = matviridis[2,][fastgreedy.community(d)$membership],
+       size = 2.5, 
+       edge.size = 0.5,
+       edge.color = 'grey32',
+       edge.alpha = 0.4,
+       mode = 'kamadakawai',
+       label= NA,
+       label.size=0,
+       legend.position = 0,
+       legend.size = 0
+       )+ ggtitle('Small-world')
+
+
+
+
+## LATTICE ##
+
+network <- lattice(sqrt(N),sqrt(N), degree)
+
+# fix having too many edges from the lattice
+	if (mean(rowSums(network)) > degree) {
+		edges <- which(network>0, arr.ind=TRUE)
+		edges <- edges[which(edges[,1] < edges[,2]),]
+		edges.to.remove <- nrow(edges)-degree*N/2
+		remove <- round(seq(1,nrow(edges),length.out=edges.to.remove))
+		edges <- edges[remove,]
+		network[cbind(edges[,1],edges[,2])]<-0
+		network[cbind(edges[,2],edges[,1])]<-0
+	}
+
+d <- graph.adjacency(network, mode="undirected")
+zz <- 4
+details$CLUSTERING[zz] <- transitivity(d)
+details$DEGREE[zz] <- mean(igraph::degree(d))
+details$MODULARITY[zz] <- modularity(fastgreedy.community(d))
+details$DENSITY[zz] <- edge_density(d)
+details$MEAN_DISTANCE[zz] <- mean_distance(d)
+
+
+## new layout
+net <- as.network(network, 
+                 matrix.type='adjacency',
+                 directed = F,
+                 ignore.eval=FALSE,
+                 names.eval='weight')
+clus = ggnet2(net,
+       color = matviridis[4,][fastgreedy.community(d)$membership],
+       size = 2.5, 
+       edge.size = 0.5,
+       edge.color = 'grey32',
+       edge.alpha = 0.4,
+       mode = layout_on_grid(d),
+       label= NA,
+       label.size=0,
+       legend.position = 0,
+       legend.size = 0
+       )+ ggtitle('Lattice')
+
+
+
+
+## MODULAR ##
+
+# modular but random within (10 modules, all connected to one-another)
+mods <- 4
+N.per.mod <- N/mods
+network <- matrix(0, nrow=N, ncol=N)
+
+for (i in 1:mods) {
+	
+	d <- sample_k_regular(N.per.mod,degree-1)
+	indices <- (i-1)*N.per.mod + (1:N.per.mod)
+	network[indices, indices] <- as.matrix(as_adjacency_matrix(d))
+
+	# connect to neighbouring community
+	mod.indices <- rep(1:mods, each= N.per.mod/mods)
+	for (j in 1:mods) {
+		if (i != j) {
+			indices.mod.other <- (j-1)*N.per.mod + (1:N.per.mod)
+			network[cbind(indices[which(mod.indices==j)], indices.mod.other[which(mod.indices==i)])] <- 1
+			network[cbind(indices.mod.other[which(mod.indices==i)], indices[which(mod.indices==j)])] <- 1
+		} else {
+			network[indices[which(mod.indices == i)][1:2],indices[which(mod.indices == i)][1:2]] <- 1
+			network[indices[which(mod.indices == i)][3:4],indices[which(mod.indices == i)][3:4]] <- 1
+		}			
+	}
+}
+
+diag(network) <- FALSE
+
+d <- graph.adjacency(network, mode="undirected", diag=FALSE)
+zz <- 5
+details$CLUSTERING[zz] <- transitivity(d)
+details$DEGREE[zz] <- mean(igraph::degree(d))
+details$MODULARITY[zz] <- modularity(fastgreedy.community(d))
+details$DENSITY[zz] <- edge_density(d)
+details$MEAN_DISTANCE[zz] <- mean_distance(d)
+
+
+## new layout
+net <- as.network(network, 
+                 matrix.type='adjacency',
+                 directed = F,
+                 ignore.eval=FALSE,
+                 names.eval='weight')
+modu = ggnet2(net,
+       color = matviridis[5,][fastgreedy.community(d)$membership],
+       size = 2.5, 
+       edge.size = 0.5,
+       edge.color = 'grey32',
+       edge.alpha = 0.4,
+       mode = 'fruchtermanreingold',
+       label= NA,
+       label.size=0,
+       legend.position = 0,
+       legend.size = 0
+       )+ ggtitle('Modular')
+
+
+
+
+## MODULAR LATTICE ##
+
+
+## modular and clustered (10 modules, all connected to one-another)
+mods <- 4
+N.per.mod <- N/mods
+network <- matrix(0, nrow=N, ncol=N)
+
+for (i in 1:mods) {
+	
+	net <- lattice(sqrt(N.per.mod),sqrt(N.per.mod), degree-1)
+	indices <- (i-1)*N.per.mod + (1:N.per.mod)
+	network[indices, indices] <- net
+
+	# connect to neighbouring community
+	mod.indices <- rep(1:mods, each= N.per.mod/mods)
+	for (j in 1:mods) {
+		if (i != j) {
+			indices.mod.other <- (j-1)*N.per.mod + (1:N.per.mod)
+			network[cbind(indices[which(mod.indices==j)], indices.mod.other[which(mod.indices==i)])] <- 1
+			network[cbind(indices.mod.other[which(mod.indices==i)], indices[which(mod.indices==j)])] <- 1
+		} else {
+			network[indices[which(mod.indices == i)][1:2],indices[which(mod.indices == i)][1:2]] <- 1
+			network[indices[which(mod.indices == i)][3:4],indices[which(mod.indices == i)][3:4]] <- 1
+		}			
+	}
+}
+
+diag(network) <- FALSE
+
+d <- graph.adjacency(network, mode="undirected", diag=FALSE)
+zz <- 6
+details$CLUSTERING[zz] <- transitivity(d)
+details$DEGREE[zz] <- mean(igraph::degree(d))
+details$MODULARITY[zz] <- modularity(fastgreedy.community(d))
+details$DENSITY[zz] <- edge_density(d)
+details$MEAN_DISTANCE[zz] <- mean_distance(d)
+
+## new layout
+net <- as.network(network, 
+                 matrix.type='adjacency',
+                 directed = F,
+                 ignore.eval=FALSE,
+                 names.eval='weight')
+mocl = ggnet2(net,
+       color = matviridis[6,][fastgreedy.community(d)$membership],
+       size = 2.5, 
+       edge.size = 0.5,
+       edge.color = 'grey32',
+       edge.alpha = 0.4,
+       mode = 'fruchtermanreingold',
+       label= NA,
+       label.size=0,
+       legend.position = 0,
+       legend.size = 0
+       )+ ggtitle('Modular lattice')
+
+
+
+
+## MULTILEVEL ##
+
+# Multilevel (2 modules of 2)
+mods.inner <- 2
+mods.outer <- 2
+
+N2 <- N/mods.outer
+
+N.per.mod <- N2/mods.inner
+network.inner <- matrix(0, nrow=N2, ncol=N2)
+network <- matrix(0, nrow=N, ncol=N)
+
+for (z in 1:mods.outer) {
+	indices.outer <- (z-1)*N.per.mod*mods.inner + (1:(N.per.mod*mods.inner))
+
+	for (i in 1:mods.inner) {	
+		net <- lattice(sqrt(N.per.mod),sqrt(N.per.mod), degree-1)
+		indices <- (i-1)*N.per.mod + (1:N.per.mod)
+		network.inner[indices, indices] <- net
+
+		# connect to neighbouring community
+		mod.indices <- rep(1:(mods.inner+1), each= N.per.mod/(mods.inner+1))
+		for (j in 1:mods.inner) {
+			if (i != j) {
+				indices.mod.other <- (j-1)*N.per.mod + (1:N.per.mod)
+				network.inner[cbind(indices[which(mod.indices==j)], indices.mod.other[which(mod.indices==i)])] <- 1
+				network.inner[cbind(indices.mod.other[which(mod.indices==i)], indices[which(mod.indices==j)])] <- 1
+			} else {
+				network.inner[indices[which(mod.indices == i)][1:2],indices[which(mod.indices == i)][1:2]] <- 1
+				network.inner[indices[which(mod.indices == i)][3:4],indices[which(mod.indices == i)][3:4]] <- 1
+			}			
+		}
+	}
+
+	# build full network
+	network[indices.outer,indices.outer] <- network.inner
+	
+}
+
+# now connect modules
+
+mods.inner.indices <- 1:(mods.inner*mods.outer)
+mod.outer.to.inner <- rep(1:mods.inner,each=mods.outer)
+mod.indices.to.connect <- vector()
+for (i in 1:mods.outer) {	
+	mod.indices <- rep(1:(mods.inner+1), each= N.per.mod/(mods.inner+1))
+	mod.indices[mod.indices <= mods.outer] <- 0
+	mod.indices[mod.indices > 0] <- rep(mods.inner.indices, each=(sum(mod.indices > 0)/length(mods.inner.indices)))
+	mod.indices <- rep(mod.indices, mods.inner)
+	mod.indices.to.connect <- c(mod.indices.to.connect,mod.indices)
+}
+
+indices <- 1:N
+for (i in 1:(mods.outer*mods.inner)) {
+for (j in 1:(mods.outer*mods.inner)) {
+	indices.mod.other.i <- (i-1)*N.per.mod + (1:N.per.mod)
+	indices.mod.other.j <- (j-1)*N.per.mod + (1:N.per.mod)
+	network[which(mod.indices.to.connect == j)[which(which(mod.indices.to.connect == j) %in% indices.mod.other.i)], which(mod.indices.to.connect == i)[which(which(mod.indices.to.connect == i) %in% indices.mod.other.j)]] <- 1
+}
+}
+
+
+diag(network) <- FALSE
+
+# fix having too many edges from the lattice
+	if (mean(rowSums(network)) > degree) {
+		edges <- which(network>0, arr.ind=TRUE)
+		edges <- edges[which(edges[,1] < edges[,2]),]
+		edges.to.remove <- nrow(edges)-degree*N/2
+		remove <- round(seq(1,nrow(edges),length.out=edges.to.remove))
+		edges <- edges[remove,]
+		network[cbind(edges[,1],edges[,2])]<-0
+		network[cbind(edges[,2],edges[,1])]<-0
+	}
+
+
+d <- graph.adjacency(network, mode="undirected", diag=FALSE)
+zz <- 7
+details$CLUSTERING[zz] <- transitivity(d)
+details$DEGREE[zz] <- mean(igraph::degree(d))
+details$MODULARITY[zz] <- modularity(fastgreedy.community(d))
+details$DENSITY[zz] <- edge_density(d)
+details$MEAN_DISTANCE[zz] <- mean_distance(d)
+
+## new layout
+net <- as.network(network, 
+                 matrix.type='adjacency',
+                 directed = F,
+                 ignore.eval=FALSE,
+                 names.eval='weight')
+mls = ggnet2(net,
+       color = matviridis[7,][fastgreedy.community(d)$membership],
+       size = 2.5, 
+       edge.size = 0.5,
+       edge.color = 'grey32',
+       edge.alpha = 0.4,
+       mode = 'fruchtermanreingold',
+       label= NA,
+       label.size=0,
+       legend.position = 0,
+       legend.size = 0
+       )+ ggtitle('Multilevel')
+
+
+
+
+
+
+
+
+
+
+
+# 4. PLOT FULL FIGURE -----------------------------------------------------
+
+
+lay <- rbind(c(1,8,8),
+             c(2,9,9),
+             c(3,10,10),
+             c(4,11,11),
+             c(5,12,12),
+             c(6,13,13),
+             c(7,14,14))
+grid.arrange(full, degr, small, clus, modu, mocl, mls, 
+             divfull, divrand, divsw, divclu, divmod, divmocl, divmls, 
+             layout_matrix = lay)
+
