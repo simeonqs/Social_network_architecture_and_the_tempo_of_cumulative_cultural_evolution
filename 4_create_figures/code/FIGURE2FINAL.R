@@ -41,16 +41,12 @@ for(j in 1:length(alphaviridis)){
 
 
 # LOAD AND PICK DATA FOR MODEL1 OR MODEL 2 
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
-load("/Users/maucantor/Documents/Google Drive/Postdoctoral/Articles/MLS_CulturalEvolution/Code/ABM/ABM_python/ABM_Final/df_TTC_m1.Rda")
-load("/Users/maucantor/Documents/Google Drive/Postdoctoral/Articles/MLS_CulturalEvolution/Code/ABM/ABM_python/ABM_Final/df_TTC_m2.Rda")
-load("/Users/maucantor/Documents/Google Drive/Postdoctoral/Articles/MLS_CulturalEvolution/Code/ABM/ABM_python/ABM_Final/df_TTD_m2.Rda")
-load("/Users/maucantor/Documents/Google Drive/Postdoctoral/Articles/MLS_CulturalEvolution/Code/ABM/ABM_python/ABM_Final/df_TTC_TTD_m2.Rda")
-
-
-
-
-
+load("../../2_Python_agent_based_models/data/df_TTC_m1.Rda")
+load("../../2_Python_agent_based_models/data/df_TTC_m2.Rda")
+load("../../2_Python_agent_based_models/data/df_TTD_m2.Rda")
+load("../../2_Python_agent_based_models/data/df_TTC_TTD_m2.Rda")
 
 
 # 3. RIDGES ---------------------------------------------------------------

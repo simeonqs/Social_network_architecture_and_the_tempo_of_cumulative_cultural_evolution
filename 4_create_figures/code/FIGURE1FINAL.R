@@ -37,16 +37,10 @@ for(i in 1:length(colviridis)){
 
 
 # LOAD AND PICK DATA FOR MODEL1 OR MODEL 2 
-
-load("/Users/maucantor/Documents/Google Drive/Postdoctoral/Articles/MLS_CulturalEvolution/Code/ABM/ABM_python/ABM_Final/df_TTC_m1.Rda")
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+load("../../2_Python_agent_based_models/data/df_TTC_m1.Rda")
 
 df = df_TTC_m1
-
-
-
-
-
-
 
 # 3. CREATE NETWORKS ------------------------------------------------------
 
@@ -60,7 +54,8 @@ N <- 324
 degree <- 12
 
 # Details
-details <- data.frame(type=c("FULL","SMALLWORLD","DEGREE","CLUSTERED","MODULAR","MOD_CLUST","MULTILEVEL"), DENSITY=NA, DEGREE=NA, CLUSTERING=NA, MODULARITY=NA, MEAN_DISTANCE=NA)
+details <- data.frame(type=c("FULL","SMALLWORLD","DEGREE","CLUSTERED","MODULAR","MOD_CLUST","MULTILEVEL"), 
+                      DENSITY=NA, DEGREE=NA, CLUSTERING=NA, MODULARITY=NA, MEAN_DISTANCE=NA)
 
 
 # Function to make a lattice (with no boundaries)

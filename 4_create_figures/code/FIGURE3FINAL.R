@@ -18,8 +18,8 @@ if(!require(ggpubr)){install.packages('ggpubr'); library(ggpubr)}
 
 
 # LOAD 
-
-load("/Users/maucantor/Documents/Google Drive/Postdoctoral/Articles/MLS_CulturalEvolution/Code/ABM/ABM_python/ABM_Final/df_TTC_m1.Rda")
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+load("../../2_Python_agent_based_models/data/df_TTC_m1.Rda")
 
 df_TTC_m1 %>% filter(graph!="full") %>% group_by(pop_size) %>% summarize(sd(epoch)/mean(epoch))
 df_TTC_m1 %>% filter(graph!="full") %>% group_by(pop_size) %>% summarize(IQR(epoch)/(quantile(epoch,.25)+quantile(epoch,.75)))
