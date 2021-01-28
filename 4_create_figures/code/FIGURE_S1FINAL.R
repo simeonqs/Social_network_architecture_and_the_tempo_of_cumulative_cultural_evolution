@@ -35,6 +35,16 @@ for(j in 1:length(alphaviridis)){
 }
 
 
+# Add a common legend to combined plot
+# credits: https://stackoverflow.com/questions/13649473/add-a-common-legend-for-combined-ggplots/28594060#28594060
+g_legend<-function(a.gplot){
+  tmp <- ggplot_gtable(ggplot_build(a.gplot))
+  leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
+  legend <- tmp$grobs[[leg]]
+  return(legend)}
+
+
+
 
 # 2. INPUT DATA  --------------------------------------------------------
 
@@ -52,6 +62,11 @@ load("../../3_R_agent_based_models/data/results_ABM1_div_2020-07-23_16_57_33.RDa
 head(div)
 
 
+
+
+
+# 3. DIVERSITY  --------------------------------------------------------
+
 ## FULL ##
 typefull = "64_full_8"
 subdiv = div[div$combined == typefull,]
@@ -61,17 +76,23 @@ divfull = ggplot(subdiv, aes(timestep, proportion_mean,
                        colour = lineage, group = medicin, 
                        size = as.factor(progress),
                        lty = as.factor(progress))) +
-      geom_line(alpha = 0.8) +
-      scale_colour_manual(values = c(as.character(matviridis[1,2]), as.character(matviridis[1,10]))) +
+      geom_line(alpha = 0.5) +
+#      scale_colour_manual(values = c(as.character(matviridis[1,2]), as.character(matviridis[1,10]))) +
+      scale_colour_manual(values = c('black', 'red')) +
       scale_size_manual(values = c(0.8, 1.1, 1.5, 1.9), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
       scale_linetype_manual(values = c(3, 4, 2, 1), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
       labs(y = '', x = '',
            lty = '', size = '',
-           title ='Fully connected') +
+           title =' ') +
       xlim(0, 200*N) +
       ylim(0, 1) +
       theme_light() +
-      theme(legend.key.size = unit(1.0, "cm"), legend.position = "none", text=element_text(size=12))
+      theme(legend.key.size = unit(1.0, "cm"),
+            legend.position = "none", text=element_text(size=14),
+            plot.margin=unit(c(0.1,0.1,0.1,0.1),"cm"),
+            panel.grid.major = element_blank(),
+            panel.grid.minor = element_blank(),
+            axis.text.x = element_blank())
 
 
 ## RANDOM ##
@@ -83,42 +104,25 @@ divrand = ggplot(subdiv, aes(timestep, proportion_mean,
                        colour = lineage, group = medicin, 
                        size = as.factor(progress),
                        lty = as.factor(progress))) +
-      geom_line(alpha = 0.8) +
-      scale_colour_manual(values = c(as.character(matviridis[2,2]), as.character(matviridis[2,10]))) +
+      geom_line(alpha = 0.5) +
+#      scale_colour_manual(values = c(as.character(matviridis[2,2]), as.character(matviridis[2,10]))) +
+      scale_colour_manual(values = c('black', 'red')) +
       scale_size_manual(values = c(0.8, 1.1, 1.5, 1.9), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
       scale_linetype_manual(values = c(3, 4, 2, 1), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
       labs(y = '', x = '', #Proportion of the population with a given trait
            lty = '', size = '',
-           title ='Random') +
+           title =' ') +
       xlim(0, 200*N) +
       ylim(0, 1) +
       theme_light() +
-      theme(legend.key.size = unit(1.0, "cm"), legend.position = "none", text=element_text(size=14)) 
+      theme(legend.key.size = unit(1.0, "cm"),
+            legend.position = "none", text=element_text(size=14),
+            plot.margin=unit(c(0.1,0.1,0.1,0.1),"cm"),
+            panel.grid.major = element_blank(),
+            panel.grid.minor = element_blank(),
+            axis.text.x = element_blank())
 
 
-
-## multilevel ##
-
-typemls = "64_multilevel_12"
-subdiv = div[div$combined == typemls,]
-N = str_split(subdiv$combined, '_')[[1]][1] %>% as.numeric
-
-divmls = ggplot(subdiv, aes(timestep, proportion_mean, 
-                       colour = lineage, group = medicin, 
-                       size = as.factor(progress),
-                       lty = as.factor(progress))) +
-      geom_line(alpha = 0.8) +
-      scale_colour_manual(values = c(as.character(matviridis[7,2]), as.character(matviridis[7,10]))) +
-      scale_size_manual(values = c(0.8, 1.1, 1.5, 1.9), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
-      scale_linetype_manual(values = c(3, 4, 2, 1), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
-      labs(y = '', x = 'Epoch',
-           lty = '', size = '',
-           title ='Multilevel') +
-      xlim(0, 200*N) +
-      ylim(0, 1) +
-      theme_light() +
-      theme(legend.key.size = unit(1.0, "cm"), legend.position = "none", text=element_text(size=12)) 
-    
 
 ## small world ##
 
@@ -130,18 +134,23 @@ divsw = ggplot(subdiv, aes(timestep, proportion_mean,
                        colour = lineage, group = medicin, 
                        size = as.factor(progress),
                        lty = as.factor(progress))) +
-      geom_line(alpha = 0.8) +
-      scale_colour_manual(values = c(as.character(matviridis[3,2]), as.character(matviridis[3,10]))) +
+      geom_line(alpha = 0.5) +
+#      scale_colour_manual(values = c(as.character(matviridis[3,2]), as.character(matviridis[3,10]))) +
+      scale_colour_manual(values = c('black', 'red')) +
       scale_size_manual(values = c(0.8, 1.1, 1.5, 1.9), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
       scale_linetype_manual(values = c(3, 4, 2, 1), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
       labs(y = '', x = '',
            lty = '', size = '',
-           title ='Small world') +
+           title =' ') +
       xlim(0, 200*N) +
       ylim(0, 1) +
       theme_light() +
-      theme(legend.key.size = unit(1.0, "cm"), legend.position = "none", text=element_text(size=12)) 
-
+      theme(legend.key.size = unit(1.0, "cm"),
+            legend.position = "none", text=element_text(size=14),
+            plot.margin=unit(c(0.1,0.1,0.1,0.1),"cm"),
+            panel.grid.major = element_blank(),
+            panel.grid.minor = element_blank(),
+            axis.text.x = element_blank())
 
 
 
@@ -155,17 +164,23 @@ divclu = ggplot(subdiv, aes(timestep, proportion_mean,
                        colour = lineage, group = medicin, 
                        size = as.factor(progress),
                        lty = as.factor(progress))) +
-      geom_line(alpha = 0.8) +
-      scale_colour_manual(values = c(as.character(matviridis[4,2]), as.character(matviridis[4,10]))) +
+      geom_line(alpha = 0.5) +
+#      scale_colour_manual(values = c(as.character(matviridis[4,2]), as.character(matviridis[4,10]))) +
+      scale_colour_manual(values = c('black', 'red')) +
       scale_size_manual(values = c(0.8, 1.1, 1.5, 1.9), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
       scale_linetype_manual(values = c(3, 4, 2, 1), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
-      labs(y = '', x = '',
+      labs(x = '', y = 'Proportion of the population',
            lty = '', size = '',
-           title ='Lattice') +
+           title =' ') +
       xlim(0, 200*N) +
       ylim(0, 1) +
       theme_light() +
-      theme(legend.key.size = unit(1.0, "cm"), legend.position = "none", text=element_text(size=12)) 
+      theme(legend.key.size = unit(1.0, "cm"),
+            legend.position = "none", text=element_text(size=12),
+            plot.margin=unit(c(0.1,0.1,0.1,0.1),"cm"),
+            panel.grid.major = element_blank(),
+            panel.grid.minor = element_blank(),
+            axis.text.x = element_blank()) 
 
 
 ## Modular ##
@@ -178,17 +193,23 @@ divmod = ggplot(subdiv, aes(timestep, proportion_mean,
                        colour = lineage, group = medicin, 
                        size = as.factor(progress),
                        lty = as.factor(progress))) +
-      geom_line(alpha = 0.8) +
-      scale_colour_manual(values = c(as.character(matviridis[5,2]), as.character(matviridis[5,10]))) +
+      geom_line(alpha = 0.5) +
+#      scale_colour_manual(values = c(as.character(matviridis[5,2]), as.character(matviridis[5,10]))) +
+      scale_colour_manual(values = c('black', 'red')) +
       scale_size_manual(values = c(0.8, 1.1, 1.5, 1.9), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
       scale_linetype_manual(values = c(3, 4, 2, 1), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
       labs(y = '', x = '',
            lty = '', size = '',
-           title ='Modular') +
+           title =' ') +
       xlim(0, 200*N) +
       ylim(0, 1) +
       theme_light() +
-      theme(legend.key.size = unit(1.0, "cm"), legend.position = "none", text=element_text(size=12)) 
+      theme(legend.key.size = unit(1.0, "cm"),
+            legend.position = "none", text=element_text(size=14),
+            plot.margin=unit(c(0.1,0.1,0.1,0.1),"cm"),
+            panel.grid.major = element_blank(),
+            panel.grid.minor = element_blank(),
+            axis.text.x = element_blank()) 
 
 
 
@@ -202,26 +223,67 @@ divmocl = ggplot(subdiv, aes(timestep, proportion_mean,
                        colour = lineage, group = medicin, 
                        size = as.factor(progress),
                        lty = as.factor(progress))) +
-      geom_line(alpha = 0.8) +
-      scale_colour_manual(values = c(as.character(matviridis[6,2]), as.character(matviridis[6,10]))) +
-      scale_size_manual(values = c(0.8, 1.1, 1.5, 1.9), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
-      scale_linetype_manual(values = c(3, 4, 2, 1), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
+      geom_line(alpha = 0.5) +
+#      scale_colour_manual(values = c(as.character(matviridis[6,2]), as.character(matviridis[6,10]))) +
+      scale_colour_manual(values = c('black', 'red')) +
+      scale_size_manual(values = c(0.5, 1.5, 1.5, 3), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
+      scale_linetype_manual(values = c('solid', 'dotted','dashed',  'solid'), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
+
       labs(y = '', x = '',
            lty = '', size = '',
-           title ='Modular lattice') +
+           title =' ') +
       xlim(0, 200*N) +
       ylim(0, 1) +
       theme_light() +
-      theme(legend.key.size = unit(1.0, "cm"), legend.position = "none", text=element_text(size=12)) 
+      theme(legend.key.size = unit(1.0, "cm"),
+            legend.position = "none", text=element_text(size=14),
+            plot.margin=unit(c(0.1,0.1,0.1,0.1),"cm"),
+            panel.grid.major = element_blank(),
+            panel.grid.minor = element_blank(),
+            axis.text.x = element_blank())
 
 
+## multilevel ##
+
+typemls = "64_multilevel_12"
+subdiv = div[div$combined == typemls,]
+N = str_split(subdiv$combined, '_')[[1]][1] %>% as.numeric
+
+divmls = ggplot(subdiv, aes(timestep, proportion_mean, 
+                       colour = lineage, group = medicin, 
+                       size = as.factor(progress),
+                       lty = as.factor(progress))) +
+      geom_line(alpha = 0.5) +
+#      scale_colour_manual(values = c(as.character(matviridis[7,2]), as.character(matviridis[7,10]))) +
+      scale_colour_manual(values = c('black', 'red')) +
+      scale_size_manual(values = c(0.8, 1.1, 1.5, 1.9), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
+      scale_linetype_manual(values = c(3, 4, 2, 1), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
+      labs(y = '', x = 'Time (epoch)',
+           lty = '', size = '',
+           title =' ') +
+      xlim(0, 200*N) +
+      ylim(0, 1) +
+      theme_light() +
+      theme(legend.key.size = unit(1.0, "cm"),
+            text=element_text(size=12),
+            plot.margin=unit(c(0.1,0.1,0.1,0.1),"cm"),
+            panel.grid.major = element_blank(),
+            panel.grid.minor = element_blank(),
+     legend.position = "bottom", # c(0.5, .98),
+     legend.justification = c("center", "top"),
+     legend.box.just = "center",
+     legend.margin = margin(),
+     legend.text = element_text(size = 9),
+     legend.key = element_rect(colour = "transparent", fill = "transparent"),
+     legend.title=element_blank(),
+     legend.box="horizontal")    
 
 
     
 
 
 
-# 3. NETWORKS N=64 --------------------------------------------------------
+# 4. NETWORKS N=64 --------------------------------------------------------
 
 
 # CREATING NETWORKS N=64, K=12
@@ -654,17 +716,24 @@ mls = ggnet2(net,
 
 
 
-# 4. PLOT FULL FIGURE -----------------------------------------------------
+# 5. PLOT FULL FIGURE -----------------------------------------------------
 
 
-lay <- rbind(c(1,8,8),
-             c(2,9,9),
-             c(3,10,10),
-             c(4,11,11),
-             c(5,12,12),
-             c(6,13,13),
-             c(7,14,14))
-grid.arrange(full, degr, small, clus, modu, mocl, mls, 
-             divfull, divrand, divsw, divclu, divmod, divmocl, divmls, 
-             layout_matrix = lay)
+lay <- rbind(c(1, 8, 8, 8),
+             c(2, 9, 9, 9),
+             c(3,10,10,10),
+             c(4,11,11,11),
+             c(5,12,12,12),
+             c(6,13,13,13),
+             c(7,14,14,14))
 
+mylegend<-g_legend(divmls)
+
+grid.arrange(
+  arrangeGrob(full, degr, small, clus, modu, mocl, mls, 
+             divfull, divrand, divsw, divclu, divmod, divmocl,
+             divmls + theme(legend.position="none"), 
+             layout_matrix = lay),
+  mylegend,
+  nrow=2,
+  heights=c(20, 1))
