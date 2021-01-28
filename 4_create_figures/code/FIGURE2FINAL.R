@@ -27,7 +27,7 @@ for(i in 1:length(colviridis)){
   for(j in 1:length(alphaviridis)){
     matviridis[i,j] = alpha(colviridis[i], alphaviridis[j])
   }
-}  
+}
 
 # reset full to greyscale
 for(j in 1:length(alphaviridis)){
@@ -40,12 +40,11 @@ for(j in 1:length(alphaviridis)){
 # 2. INPUT DATA -----------------------------------------------------------
 
 
-# LOAD AND PICK DATA FOR MODEL1 OR MODEL 2 
+# LOAD AND PICK DATA FOR MODEL1 OR MODEL 2
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
 load("../../2_Python_agent_based_models/data/df_TTC_m1.Rda")
 load("../../2_Python_agent_based_models/data/df_TTC_m2.Rda")
-load("../../2_Python_agent_based_models/data/df_TTD_m2.Rda")
 load("../../2_Python_agent_based_models/data/df_TTC_TTD_m2.Rda")
 
 
@@ -72,8 +71,8 @@ ggplot(aes(x = log(delta_TTC_TTD+1), y = graph)) +
                          bandwidth = 0.18#,
                         #quantile_lines = T, quantiles = 2
                         ) +
-  scale_fill_manual(values = as.character(matviridis[7:1,6])) +  
-  scale_x_continuous(limits = c(0, 3.5), expand = c(0, 0), labels = c('1', '2.5', '5',  '10'), 
+  scale_fill_manual(values = as.character(matviridis[7:1,6])) +
+  scale_x_continuous(limits = c(0, 3.5), expand = c(0, 0), labels = c('1', '2.5', '5',  '10'),
                      breaks = c(0, 0.92, 1.61, 2.31))+
   labs(x = '', y = '') +
   theme_ridges() + theme(legend.position = "none",
@@ -106,7 +105,7 @@ ggplot(aes(x = log(epoch+1), y = graph)) +
      geom_density_ridges(aes(fill = graph), scale = 3, size = 0.3, jittered_points = F,
                          bandwidth = 0.18
                         ) +
-  scale_fill_manual(values = as.character(matviridis[7:1,6])) +  
+  scale_fill_manual(values = as.character(matviridis[7:1,6])) +
   scale_x_continuous(limits = c(-1, 8), expand = c(0, 0), labels = c('1', '10',  '100', '1000'), breaks = c(0, 2.31, 4.608, 6.908)) +
   labs(x = '', y = '') +
   theme_ridges() + theme(legend.position = "none",
@@ -138,7 +137,7 @@ ggplot(aes(x = log(epoch+1), y = graph)) +
      geom_density_ridges(aes(fill = graph), scale = 3, size = 0.3, jittered_points = F,
                          bandwidth = 0.18
                         ) +
-    scale_fill_manual(values = as.character(matviridis[7:1,6])) +  
+    scale_fill_manual(values = as.character(matviridis[7:1,6])) +
   scale_x_continuous(limits = c(-1, 8), expand = c(0, 0), labels = c('1', '10',  '100', '1000'), breaks = c(0, 2.31, 4.608, 6.908)) +
   labs(x = '', y = 'Network size N=64') +
   theme_ridges() + theme(legend.position = "none",
@@ -176,8 +175,8 @@ ggplot(aes(x = log(delta_TTC_TTD+1), y = graph)) +
      geom_density_ridges(aes(fill = graph), scale = 3, size = 0.3, jittered_points = F,
                          bandwidth = 0.18
                         ) +
-  scale_fill_manual(values = as.character(matviridis[7:1,6])) +  
-  scale_x_continuous(limits = c(0, 3.5), expand = c(0, 0), labels = c('1', '2.5', '5',  '10'), 
+  scale_fill_manual(values = as.character(matviridis[7:1,6])) +
+  scale_x_continuous(limits = c(0, 3.5), expand = c(0, 0), labels = c('1', '2.5', '5',  '10'),
                      breaks = c(0, 0.92, 1.61, 2.31))+
   labs(x = '', y = '') +
   theme_ridges() + theme(legend.position = "none",
@@ -210,7 +209,7 @@ ggplot(aes(x = log(epoch+1), y = graph)) +
      geom_density_ridges(aes(fill = graph), scale = 3, size = 0.3, jittered_points = F,
                          bandwidth = 0.18
                         ) +
-  scale_fill_manual(values = as.character(matviridis[7:1,6])) +  
+  scale_fill_manual(values = as.character(matviridis[7:1,6])) +
   scale_x_continuous(limits = c(-1, 8), expand = c(0, 0), labels = c('1', '10',  '100', '1000'), breaks = c(0, 2.31, 4.608, 6.908)) +
   labs(x = '', y = '') +
   scale_y_discrete(labels = c(' ', ' ', ' ', ' ', ' ', ' ', ' ')) +
@@ -242,7 +241,7 @@ ggplot(aes(x = log(epoch+1), y = graph)) +
      geom_density_ridges(aes(fill = graph), scale = 3, size = 0.3, jittered_points = F,
                          bandwidth = 0.18
                         ) +
-  scale_fill_manual(values = as.character(matviridis[7:1,6])) +  
+  scale_fill_manual(values = as.character(matviridis[7:1,6])) +
   scale_x_continuous(limits = c(-1, 8), expand = c(0, 0), labels = c('1', '10',  '100', '1000'), breaks = c(0, 2.31, 4.608, 6.908)) +
   labs(x = '', y = 'Network size N=144') +
   theme_ridges() + theme(legend.position = "none",
@@ -278,8 +277,8 @@ ggplot(aes(x = log(delta_TTC_TTD+1), y = graph)) +
      geom_density_ridges(aes(fill = graph), scale = 3, size = 0.3, jittered_points = F,
                          bandwidth = 0.18
                         ) +
-  scale_fill_manual(values = as.character(matviridis[7:1,6])) +  
-  scale_x_continuous(limits = c(0, 3.5), expand = c(0, 0), labels = c('1', '2.5', '5',  '10'), 
+  scale_fill_manual(values = as.character(matviridis[7:1,6])) +
+  scale_x_continuous(limits = c(0, 3.5), expand = c(0, 0), labels = c('1', '2.5', '5',  '10'),
                      breaks = c(0, 0.92, 1.61, 2.31))+
   labs(x = 'Time from recombination \n to diffusion (epoch)', y = '') +
   theme_ridges() + theme(legend.position = "none",
@@ -311,7 +310,7 @@ ggplot(aes(x = log(epoch+1), y = graph)) +
      geom_density_ridges(aes(fill = graph), scale = 3, size = 0.3, jittered_points = F,
                          bandwidth = 0.18
                         ) +
-  scale_fill_manual(values = as.character(matviridis[7:1,6])) +  
+  scale_fill_manual(values = as.character(matviridis[7:1,6])) +
   scale_x_continuous(limits = c(-1, 8), expand = c(0, 0), labels = c('1', '10',  '100', '1000'), breaks = c(0, 2.31, 4.608, 6.908)) +
   labs(x = 'Time to recombination with \n one-to-one diffusion (epoch)', y = '') +
   theme_ridges() + theme(legend.position = "none",
@@ -342,7 +341,7 @@ ggplot(aes(x = log(epoch+1), y = graph)) +
      geom_density_ridges(aes(fill = graph), scale = 3, size = 0.3, jittered_points = F,
                          bandwidth = 0.18
                         ) +
-  scale_fill_manual(values = as.character(matviridis[7:1,6])) +  
+  scale_fill_manual(values = as.character(matviridis[7:1,6])) +
   scale_x_continuous(limits = c(-1, 8), expand = c(0, 0), labels = c('1', '10',  '100', '1000'), breaks = c(0, 2.31, 4.608, 6.908)) +
   labs(x = 'Time to recombination with \n one-to-many diffusion (epoch)', y = 'Network size N=324') +
   theme_ridges() + theme(legend.position = "none",
