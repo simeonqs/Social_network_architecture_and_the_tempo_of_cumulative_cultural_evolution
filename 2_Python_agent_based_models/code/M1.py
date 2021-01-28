@@ -12,22 +12,30 @@ from os import listdir
 from os.path import isfile, join
 from sys import argv
 
-graph_type = argv[1] if len(argv) > 1 else 0 #clustered, degree, full, modular_and_clustered, modular, multilevel, small_world
+#this parses the command line argument, which sets the graph architecture to be simulated. Can take string values: clustered, degree, full, modular_and_clustered, modular, multilevel, small_world
+graph_type = str(argv[1]) if len(argv) > 1 else 0
 
 #parameters
-#timestep_limit=100000
-masterID = 0
-master_sim_no = 0
+masterID = 0 # an integer used to keep track of individual agents
+master_sim_no = 0 # an integer used to keep track of individual simulations
+#unused parameters to test pop turnover
 turnover = False
 num_turnover = 10
 
+#loads graphs of the network type selected by cmd line argument
+def get_graphs(graph_type):
+    graph_files = [join("../networks",graph_type,file) for file in listdir("../networks/{}".format(graph_type)) if not file.startswith('.')]
+    return graph_files
 
+#function that generates the underlying network from an adjacency list and populates it with instances of the agent class
 def generate_network(graph_file):
     G = nx.read_adjlist(graph_file,nodetype=int)
     for x in list(G.nodes()):
         G.nodes[x]['data'] = agent()
     return G
 
+#this is the agent class, an instance of which is generated for each node in the graph at the beginning of simulations.
+#it keeps track of the agents knowledge state, as well as contains methods for learning and producing behaviors
 class agent:
 
     '''
@@ -82,9 +90,7 @@ class agent:
 
         return list(production)
 
-def get_graphs(graph_type):
-    graph_files = [join("../networks",graph_type,file) for file in listdir("../networks/{}".format(graph_type)) if not file.startswith('.')]
-    return graph_files
+
 
 def choose_dyad(G,focal):
     '''
@@ -241,16 +247,25 @@ def simulation(num_replicates):
             a_track = 0
             b_track = 0
             #loops through interactions and exits once the final product is innovated
-            #while not end:
             while not end: #force sims to continue running
+                #generate list of agents and randomly shuffle them
                 focal_list = np.arange(1,N+1)
                 np.random.shuffle(focal_list)
+
+                #loops through agents, now in random order
                 for focal in focal_list:
+                    #picks a neighboring agent of focal agent
                     dyad = choose_dyad(G,focal)
                     #print("Agents {} and {} are interacting".format(dyad[0],dyad[1]))
+
+                    #they produce some combination of items
                     combination = interaction(G, dyad)
                     #print("Agents produced combination {}".format(combination))
+
+                    #check to see if there has been a discovery
                     discovery, discovery_name = discovery_check(combination)
+
+                    #if so, and if it is not an innovation, add it to innovations
                     if discovery:
                         if discovery_name not in innovations:
                             innovations.append(discovery_name)
@@ -260,42 +275,33 @@ def simulation(num_replicates):
                                 b_track += 1
                             #print("Combination led to discovery {} ({})".format(discovery_name,discovery))
                             write_csv(sim_num, timestep,epoch,graph_condition,N,dyad[0],dyad[1],discovery,len(innovations),a_track,b_track)
+
+                        #both agents in the dyad learn the discovery
                         ind_learning(G,dyad,discovery)
+
+                        #diffuse to all neighbors of the dyad (one to many "broadcast" diffusion)
                         neighbors = diffusion(G,dyad,discovery)
                         #print("information diffused to {} agents".format(len(neighbors)))
+
+                        #If it is an innovation, and it is the end product, end the simulation
                         if discovery in [7,14]:
                             print("Crossover found. Simulation ending at timestep {}, epoch {}.".format(timestep, epoch))
                             end = 1
                             break
                         #write data here
 
+                    #if the timestep is divisible by 100, write out the data
                     elif timestep%100==0 and not end:
                         write_csv(sim_num, timestep,epoch,graph_condition,N,dyad[0],dyad[1],discovery,len(innovations),a_track,b_track)
-                    timestep +=1
+
+                    timestep +=1 #increment timestep
 
                 #count_pockets(G,sim_num,epoch,graph_condition,N)
-                epoch+=1
+                epoch+=1 #increment epoch
             else:
                 #code here will run when while loop condition evaluates False
                 master_sim_no += 1
 
-
-    # In[ ]:
-
-
 create_csv()
 create_csv_proportions()
 simulation(5000)
-
-
-
-"""
-
-def cacluate_proportion_ab(G):
-    total_a_track = 0
-    total_b_track = 0
-    for agent in G.nodes():
-        ind_a_track = sum(G.nodes[1]["data"].inventory[3:7,2])
-        ind_b_track = sum(G.nodes[1]["data"].inventory[10:14,2])
-        if ind_a_track >
-"""

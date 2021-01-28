@@ -26,6 +26,10 @@ def generate_network(graph_file):
         G.nodes[x]['data'] = agent()
     return G
 
+def get_graphs(graph_type):
+    graph_files = [join("../networks",graph_type,file) for file in listdir("../networks/{}".format(graph_type)) if not file.startswith('.')]
+    return graph_files
+
 class agent:
     '''
     instances of agents are created and attached to nodes in the network
@@ -79,9 +83,6 @@ class agent:
 
         return list(production)
 
-def get_graphs(graph_type):
-    graph_files = [join("../networks",graph_type,file) for file in listdir("../networks/{}".format(graph_type)) if not file.startswith('.')]
-    return graph_files
 
 def choose_dyad(G,focal):
     '''
@@ -154,6 +155,7 @@ def ind_learning(G,dyad,discovery):
         G.nodes[agent]["data"].inventory[discovery-1,2] = 1
         #print("Memory after learning {}".format(G.nodes[agent]["data"].inventory[discovery-1,2]))
 
+#before producing a behavior, the dyad learns from each others knowledge state
 def compare_notes(G, dyad):
     i_inventory = G.nodes[dyad[0]]["data"].inventory[:,2]
     #print("inventory1 {}".format(i_inventory))
@@ -204,6 +206,7 @@ def write_csv(sim_num,timestep,epoch,graph_condition,pop_size,agent_i,agent_j,di
     with open("../results/m2/TTC_"+str(graph_type)+".csv","a") as f:
         f.write("{},{},{},{},{},{},{},{},{},{},{}\n".format(sim_num,timestep,epoch,graph_condition,pop_size,agent_i,agent_j,discovery,innov_level,a_track,b_track))
 
+#counts up the inventories of all agents to check if the crossover has diffused to more than half of the population
 def count_pockets(G,sim_num,epoch,graph_condition,pop_size,crossover_diffused):
     count_A1 = 0
     count_A2 = 0
