@@ -15,12 +15,22 @@ if(!require(ggridges)){install.packages('ggridges'); library(ggridges)}
 
 # 2. INPUT DATA -----------------------------------------------------------
 
-# N=62, K=12
 
-# # Load data
-#  load('/Users/maucantor/Desktop/model 1/props_all.RData')
-#  load('/Users/maucantor/Desktop/model 1/results_ABM1_2020-08-14_13:06:41.RData')
-#  load('/Users/maucantor/Desktop/model 1/results_ABM1_div_2020-08-14_13:06:41.RData')
+# The first dataaset is a large 1.3GB file thus it is not deposited in the repository. 
+# Please download it first to your /3_R_agent_based_models/data/" folder using this link:
+# https://owncloud.gwdg.de/index.php/s/nrm9MSb4jm64RnT
+# Then load it
+load("../../3_R_agent_based_models/data/props_all.RData")
+
+# Load the other datasets, which are in the repository
+load("../../3_R_agent_based_models/data/results_ABM1_2020-08-14_13_06_41.RData")
+load("../../3_R_agent_based_models/data/results_ABM1_div_2020-08-14_13_06_41.RData")
+
+# If needed, you can also download these datasets in the following links
+# https://owncloud.gwdg.de/index.php/s/BeuEFZKJ1eNhiw4
+# https://owncloud.gwdg.de/index.php/s/zdkF0lmmjVP2U9E
+
+
 
 # wrangle data
 
