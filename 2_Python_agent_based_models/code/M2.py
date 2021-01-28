@@ -1,6 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+'''
+The main difference between this simulation (M2) and M1, is that M2 only performs 1-1 diffusion of innovations (through the function "compare_notes"),
+where as M1 has a 1 to many diffusion. This simulation also keeps running after the final crossover products have been innovated, and runs until
+it has diffused to more than half the population (kept track of through the function "count_pockets").
+'''
+
 import numpy as np
 import networkx as nx
 from networkx.algorithms import community
@@ -12,24 +18,30 @@ from os import listdir
 from os.path import isfile, join
 from sys import argv
 
-graph_type = argv[1] if len(argv) > 1 else 0 #clustered, degree, full, modular_and_clustered, modular, multilevel,small_world
+#this parses the command line argument, which sets the graph architecture to be simulated. Can take string values: clustered, degree, full, modular_and_clustered, modular, multilevel, small_world
+graph_type = str(argv[1]) if len(argv) > 1 else 0
 
 #parameters
-masterID = 0
+masterID = 0 # an integer used to keep track of individual agents
+master_sim_no = 0 # an integer used to keep track of individual simulations
+#unused parameters to test pop turnover
 turnover = False
 num_turnover = 10
 
-
+#loads graphs of the network type selected by cmd line argument
 def generate_network(graph_file):
     G = nx.read_adjlist(graph_file,nodetype=int)
     for x in list(G.nodes()):
         G.nodes[x]['data'] = agent()
     return G
 
+#function that generates the underlying network from an adjacency list and populates it with instances of the agent class
 def get_graphs(graph_type):
     graph_files = [join("../networks",graph_type,file) for file in listdir("../networks/{}".format(graph_type)) if not file.startswith('.')]
     return graph_files
 
+#this is the agent class, an instance of which is generated for each node in the graph at the beginning of simulations.
+#it keeps track of the agents knowledge state, as well as contains methods for learning and producing behaviors
 class agent:
     '''
     instances of agents are created and attached to nodes in the network
