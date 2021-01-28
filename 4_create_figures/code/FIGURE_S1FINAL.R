@@ -72,7 +72,10 @@ typefull = "64_full_8"
 subdiv = div[div$combined == typefull,]
 N = str_split(subdiv$combined, '_')[[1]][1] %>% as.numeric
 
-divfull = ggplot(subdiv, aes(timestep, proportion_mean, 
+divfull = 
+ subdiv %>% 
+  mutate(lineage = factor(lineage, levels = c('A', 'B'), labels=c('lineage A', 'lineage B'))) %>% 
+  ggplot(aes(timestep, proportion_mean, 
                        colour = lineage, group = medicin, 
                        size = as.factor(progress),
                        lty = as.factor(progress))) +
@@ -87,20 +90,27 @@ divfull = ggplot(subdiv, aes(timestep, proportion_mean,
       xlim(0, 200*N) +
       ylim(0, 1) +
       theme_light() +
+  facet_wrap(~lineage, ncol=2) +
       theme(legend.key.size = unit(1.0, "cm"),
-            legend.position = "none", text=element_text(size=14),
+            legend.position = "none", 
+            text=element_text(size=14),
             plot.margin=unit(c(0.1,0.1,0.1,0.1),"cm"),
             panel.grid.major = element_blank(),
             panel.grid.minor = element_blank(),
-            axis.text.x = element_blank())
+            axis.text.x = element_blank(),
+            strip.background = element_blank(),
+            strip.text = element_text(colour='black', size=12))
 
 
 ## RANDOM ##
-    typerand = "64_degree_12"
+typerand = "64_degree_12"
 subdiv = div[div$combined == typerand,]
 N = str_split(subdiv$combined, '_')[[1]][1] %>% as.numeric
 
-divrand = ggplot(subdiv, aes(timestep, proportion_mean, 
+divrand = 
+  subdiv %>% 
+  mutate(lineage = factor(lineage, levels = c('A', 'B'), labels=c('lineage A', 'lineage B'))) %>% 
+  ggplot(aes(timestep, proportion_mean, 
                        colour = lineage, group = medicin, 
                        size = as.factor(progress),
                        lty = as.factor(progress))) +
@@ -114,13 +124,16 @@ divrand = ggplot(subdiv, aes(timestep, proportion_mean,
            title =' ') +
       xlim(0, 200*N) +
       ylim(0, 1) +
+      facet_wrap(~lineage, ncol=2) +
       theme_light() +
       theme(legend.key.size = unit(1.0, "cm"),
             legend.position = "none", text=element_text(size=14),
             plot.margin=unit(c(0.1,0.1,0.1,0.1),"cm"),
             panel.grid.major = element_blank(),
             panel.grid.minor = element_blank(),
-            axis.text.x = element_blank())
+            axis.text.x = element_blank(),
+            strip.background = element_blank(),
+            strip.text = element_blank())
 
 
 
@@ -130,7 +143,10 @@ typesw = "64_smallworld_12"
 subdiv = div[div$combined == typesw,]
 N = str_split(subdiv$combined, '_')[[1]][1] %>% as.numeric
 
-divsw = ggplot(subdiv, aes(timestep, proportion_mean, 
+divsw = 
+  subdiv %>% 
+  mutate(lineage = factor(lineage, levels = c('A', 'B'), labels=c('lineage A', 'lineage B'))) %>% 
+  ggplot(aes(timestep, proportion_mean, 
                        colour = lineage, group = medicin, 
                        size = as.factor(progress),
                        lty = as.factor(progress))) +
@@ -144,13 +160,16 @@ divsw = ggplot(subdiv, aes(timestep, proportion_mean,
            title =' ') +
       xlim(0, 200*N) +
       ylim(0, 1) +
+      facet_wrap(~lineage, ncol=2) +
       theme_light() +
       theme(legend.key.size = unit(1.0, "cm"),
             legend.position = "none", text=element_text(size=14),
             plot.margin=unit(c(0.1,0.1,0.1,0.1),"cm"),
             panel.grid.major = element_blank(),
             panel.grid.minor = element_blank(),
-            axis.text.x = element_blank())
+            axis.text.x = element_blank(),
+            strip.background = element_blank(),
+            strip.text = element_blank())
 
 
 
@@ -160,7 +179,10 @@ typeclu = "64_clustered_12"
 subdiv = div[div$combined == typeclu,]
 N = str_split(subdiv$combined, '_')[[1]][1] %>% as.numeric
 
-divclu = ggplot(subdiv, aes(timestep, proportion_mean, 
+divclu = 
+  subdiv %>% 
+  mutate(lineage = factor(lineage, levels = c('A', 'B'), labels=c('lineage A', 'lineage B'))) %>% 
+  ggplot(aes(timestep, proportion_mean, 
                        colour = lineage, group = medicin, 
                        size = as.factor(progress),
                        lty = as.factor(progress))) +
@@ -174,13 +196,16 @@ divclu = ggplot(subdiv, aes(timestep, proportion_mean,
            title =' ') +
       xlim(0, 200*N) +
       ylim(0, 1) +
+      facet_wrap(~lineage, ncol=2) +
       theme_light() +
       theme(legend.key.size = unit(1.0, "cm"),
             legend.position = "none", text=element_text(size=12),
             plot.margin=unit(c(0.1,0.1,0.1,0.1),"cm"),
             panel.grid.major = element_blank(),
             panel.grid.minor = element_blank(),
-            axis.text.x = element_blank()) 
+            axis.text.x = element_blank(),
+            strip.background = element_blank(),
+            strip.text = element_blank()) 
 
 
 ## Modular ##
@@ -189,7 +214,10 @@ typemod = "64_modular_12"
 subdiv = div[div$combined == typemod,]
 N = str_split(subdiv$combined, '_')[[1]][1] %>% as.numeric
 
-divmod = ggplot(subdiv, aes(timestep, proportion_mean, 
+divmod = 
+  subdiv %>% 
+  mutate(lineage = factor(lineage, levels = c('A', 'B'), labels=c('lineage A', 'lineage B'))) %>% 
+  ggplot(aes(timestep, proportion_mean, 
                        colour = lineage, group = medicin, 
                        size = as.factor(progress),
                        lty = as.factor(progress))) +
@@ -203,13 +231,16 @@ divmod = ggplot(subdiv, aes(timestep, proportion_mean,
            title =' ') +
       xlim(0, 200*N) +
       ylim(0, 1) +
+      facet_wrap(~lineage, ncol=2) +
       theme_light() +
       theme(legend.key.size = unit(1.0, "cm"),
             legend.position = "none", text=element_text(size=14),
             plot.margin=unit(c(0.1,0.1,0.1,0.1),"cm"),
             panel.grid.major = element_blank(),
             panel.grid.minor = element_blank(),
-            axis.text.x = element_blank()) 
+            axis.text.x = element_blank(),
+            strip.background = element_blank(),
+            strip.text = element_blank()) 
 
 
 
@@ -219,7 +250,10 @@ typemocl = "64_modularclustered_12"
 subdiv = div[div$combined == typemocl,]
 N = str_split(subdiv$combined, '_')[[1]][1] %>% as.numeric
 
-divmocl = ggplot(subdiv, aes(timestep, proportion_mean, 
+divmocl = 
+  subdiv %>% 
+  mutate(lineage = factor(lineage, levels = c('A', 'B'), labels=c('lineage A', 'lineage B'))) %>% 
+  ggplot(aes(timestep, proportion_mean, 
                        colour = lineage, group = medicin, 
                        size = as.factor(progress),
                        lty = as.factor(progress))) +
@@ -234,13 +268,16 @@ divmocl = ggplot(subdiv, aes(timestep, proportion_mean,
            title =' ') +
       xlim(0, 200*N) +
       ylim(0, 1) +
+      facet_wrap(~lineage, ncol=2) +
       theme_light() +
       theme(legend.key.size = unit(1.0, "cm"),
             legend.position = "none", text=element_text(size=14),
             plot.margin=unit(c(0.1,0.1,0.1,0.1),"cm"),
             panel.grid.major = element_blank(),
             panel.grid.minor = element_blank(),
-            axis.text.x = element_blank())
+            axis.text.x = element_blank(),
+            strip.background = element_blank(),
+            strip.text = element_blank())
 
 
 ## multilevel ##
@@ -249,13 +286,17 @@ typemls = "64_multilevel_12"
 subdiv = div[div$combined == typemls,]
 N = str_split(subdiv$combined, '_')[[1]][1] %>% as.numeric
 
-divmls = ggplot(subdiv, aes(timestep, proportion_mean, 
+divmls = 
+  subdiv %>% 
+  mutate(lineage = factor(lineage, levels = c('A', 'B'), labels=c('lineage A', 'lineage B'))) %>% 
+  ggplot(aes(timestep, proportion_mean, 
                        colour = lineage, group = medicin, 
                        size = as.factor(progress),
                        lty = as.factor(progress))) +
       geom_line(alpha = 0.5) +
 #      scale_colour_manual(values = c(as.character(matviridis[7,2]), as.character(matviridis[7,10]))) +
-      scale_colour_manual(values = c('black', 'red')) +
+      scale_colour_manual(values = c('black', 'red'),
+                          guide = F) + # remove legend for lineages
       scale_size_manual(values = c(0.5, 1.5, 1.5, 3), labels = c('Item', 'Dyad', 'Triad', 'Recombination')) +
       scale_linetype_manual(values = c('solid', 'dotted','dashed',  'solid'), labels = c('Item', 'Dyad', 'Triad', 'Recombination')) +
       labs(y = '', x = 'Time (epoch)',
@@ -263,6 +304,7 @@ divmls = ggplot(subdiv, aes(timestep, proportion_mean,
            title =' ') +
       xlim(0, 200*N) +
       ylim(0, 1) +
+      facet_wrap(~lineage, ncol=2) +
       theme_light() +
       theme(legend.key.size = unit(1.0, "cm"),
             text=element_text(size=12),
@@ -276,7 +318,9 @@ divmls = ggplot(subdiv, aes(timestep, proportion_mean,
      legend.text = element_text(size = 9),
      legend.key = element_rect(colour = "transparent", fill = "transparent"),
      legend.title=element_blank(),
-     legend.box="horizontal")    
+     legend.box="horizontal",
+            strip.background = element_blank(),
+            strip.text = element_blank())
 
 
     
