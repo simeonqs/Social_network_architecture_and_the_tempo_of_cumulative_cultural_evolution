@@ -65,7 +65,7 @@ head(div)
 
 
 
-# 3. DIVERSITY  --------------------------------------------------------
+# 3. DIVERSITY N=64, K=12 --------------------------------------------------------
 
 ## FULL ##
 typefull = "64_full_8"
@@ -79,8 +79,8 @@ divfull = ggplot(subdiv, aes(timestep, proportion_mean,
       geom_line(alpha = 0.5) +
 #      scale_colour_manual(values = c(as.character(matviridis[1,2]), as.character(matviridis[1,10]))) +
       scale_colour_manual(values = c('black', 'red')) +
-      scale_size_manual(values = c(0.8, 1.1, 1.5, 1.9), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
-      scale_linetype_manual(values = c(3, 4, 2, 1), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
+      scale_size_manual(values = c(0.5, 1.5, 1.5, 3), labels = c('Item', 'Dyad', 'Triad', 'Recombination')) +
+      scale_linetype_manual(values = c('solid', 'dotted','dashed',  'solid'), labels = c('Item', 'Dyad', 'Triad', 'Recombination')) +
       labs(y = '', x = '',
            lty = '', size = '',
            title =' ') +
@@ -107,8 +107,8 @@ divrand = ggplot(subdiv, aes(timestep, proportion_mean,
       geom_line(alpha = 0.5) +
 #      scale_colour_manual(values = c(as.character(matviridis[2,2]), as.character(matviridis[2,10]))) +
       scale_colour_manual(values = c('black', 'red')) +
-      scale_size_manual(values = c(0.8, 1.1, 1.5, 1.9), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
-      scale_linetype_manual(values = c(3, 4, 2, 1), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
+      scale_size_manual(values = c(0.5, 1.5, 1.5, 3), labels = c('Item', 'Dyad', 'Triad', 'Recombination')) +
+      scale_linetype_manual(values = c('solid', 'dotted','dashed',  'solid'), labels = c('Item', 'Dyad', 'Triad', 'Recombination')) +
       labs(y = '', x = '', #Proportion of the population with a given trait
            lty = '', size = '',
            title =' ') +
@@ -137,8 +137,8 @@ divsw = ggplot(subdiv, aes(timestep, proportion_mean,
       geom_line(alpha = 0.5) +
 #      scale_colour_manual(values = c(as.character(matviridis[3,2]), as.character(matviridis[3,10]))) +
       scale_colour_manual(values = c('black', 'red')) +
-      scale_size_manual(values = c(0.8, 1.1, 1.5, 1.9), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
-      scale_linetype_manual(values = c(3, 4, 2, 1), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
+      scale_size_manual(values = c(0.5, 1.5, 1.5, 3), labels = c('Item', 'Dyad', 'Triad', 'Recombination')) +
+      scale_linetype_manual(values = c('solid', 'dotted','dashed',  'solid'), labels = c('Item', 'Dyad', 'Triad', 'Recombination')) +
       labs(y = '', x = '',
            lty = '', size = '',
            title =' ') +
@@ -167,8 +167,8 @@ divclu = ggplot(subdiv, aes(timestep, proportion_mean,
       geom_line(alpha = 0.5) +
 #      scale_colour_manual(values = c(as.character(matviridis[4,2]), as.character(matviridis[4,10]))) +
       scale_colour_manual(values = c('black', 'red')) +
-      scale_size_manual(values = c(0.8, 1.1, 1.5, 1.9), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
-      scale_linetype_manual(values = c(3, 4, 2, 1), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
+      scale_size_manual(values = c(0.5, 1.5, 1.5, 3), labels = c('Item', 'Dyad', 'Triad', 'Recombination')) +
+      scale_linetype_manual(values = c('solid', 'dotted','dashed',  'solid'), labels = c('Item', 'Dyad', 'Triad', 'Recombination')) +
       labs(x = '', y = 'Proportion of the population',
            lty = '', size = '',
            title =' ') +
@@ -196,8 +196,8 @@ divmod = ggplot(subdiv, aes(timestep, proportion_mean,
       geom_line(alpha = 0.5) +
 #      scale_colour_manual(values = c(as.character(matviridis[5,2]), as.character(matviridis[5,10]))) +
       scale_colour_manual(values = c('black', 'red')) +
-      scale_size_manual(values = c(0.8, 1.1, 1.5, 1.9), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
-      scale_linetype_manual(values = c(3, 4, 2, 1), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
+      scale_size_manual(values = c(0.5, 1.5, 1.5, 3), labels = c('Item', 'Dyad', 'Triad', 'Recombination')) +
+      scale_linetype_manual(values = c('solid', 'dotted','dashed',  'solid'), labels = c('Item', 'Dyad', 'Triad', 'Recombination')) +
       labs(y = '', x = '',
            lty = '', size = '',
            title =' ') +
@@ -226,8 +226,8 @@ divmocl = ggplot(subdiv, aes(timestep, proportion_mean,
       geom_line(alpha = 0.5) +
 #      scale_colour_manual(values = c(as.character(matviridis[6,2]), as.character(matviridis[6,10]))) +
       scale_colour_manual(values = c('black', 'red')) +
-      scale_size_manual(values = c(0.5, 1.5, 1.5, 3), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
-      scale_linetype_manual(values = c('solid', 'dotted','dashed',  'solid'), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
+      scale_size_manual(values = c(0.5, 1.5, 1.5, 3), labels = c('Item', 'Dyad', 'Triad', 'Recombination')) +
+      scale_linetype_manual(values = c('solid', 'dotted','dashed',  'solid'), labels = c('Item', 'Dyad', 'Triad', 'Recombination')) +
 
       labs(y = '', x = '',
            lty = '', size = '',
@@ -256,8 +256,8 @@ divmls = ggplot(subdiv, aes(timestep, proportion_mean,
       geom_line(alpha = 0.5) +
 #      scale_colour_manual(values = c(as.character(matviridis[7,2]), as.character(matviridis[7,10]))) +
       scale_colour_manual(values = c('black', 'red')) +
-      scale_size_manual(values = c(0.8, 1.1, 1.5, 1.9), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
-      scale_linetype_manual(values = c(3, 4, 2, 1), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
+      scale_size_manual(values = c(0.5, 1.5, 1.5, 3), labels = c('Item', 'Dyad', 'Triad', 'Recombination')) +
+      scale_linetype_manual(values = c('solid', 'dotted','dashed',  'solid'), labels = c('Item', 'Dyad', 'Triad', 'Recombination')) +
       labs(y = '', x = 'Time (epoch)',
            lty = '', size = '',
            title =' ') +
@@ -283,7 +283,7 @@ divmls = ggplot(subdiv, aes(timestep, proportion_mean,
 
 
 
-# 4. NETWORKS N=64 --------------------------------------------------------
+# 4. NETWORKS N=64, K=12 --------------------------------------------------------
 
 
 # CREATING NETWORKS N=64, K=12
