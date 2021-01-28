@@ -4,4 +4,6 @@ Social_network_architecture_and_the_tempo_of_cumulative_cultural_evolution.Rproj
 *.Rhistory
 *.DS_Store
 *.gitignore
-*.RData
+#*.RData
+.Rproj.user
+CCE.Rproj
