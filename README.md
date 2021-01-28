@@ -6,7 +6,6 @@ The Python and R code needed to replicate results from the article:
 Cantor M, Chimento M, Smeele SQ, He P, Papageorgiou D, Aplin LM, Farine DR. in review. 
 Social network architecture and the tempo of cumulative cultural evolution. 
 https://www.biorxiv.org/content/10.1101/2020.12.04.411934v1
-
 ```
 
 ##### Version 0.2 January 2021
