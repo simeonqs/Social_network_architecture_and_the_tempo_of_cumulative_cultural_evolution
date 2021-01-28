@@ -169,7 +169,7 @@ divclu = ggplot(subdiv, aes(timestep, proportion_mean,
       scale_colour_manual(values = c('black', 'red')) +
       scale_size_manual(values = c(0.5, 1.5, 1.5, 3), labels = c('Item', 'Dyad', 'Triad', 'Recombination')) +
       scale_linetype_manual(values = c('solid', 'dotted','dashed',  'solid'), labels = c('Item', 'Dyad', 'Triad', 'Recombination')) +
-      labs(x = '', y = 'Proportion of the population',
+      labs(x = '', y = 'Proportion of population',
            lty = '', size = '',
            title =' ') +
       xlim(0, 200*N) +
