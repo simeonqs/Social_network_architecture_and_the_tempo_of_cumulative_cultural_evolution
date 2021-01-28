@@ -97,27 +97,38 @@ multi_rep2 = props_all[props_all$combined == '64_multilevel_12' &
 
 # Plot diversity for full network
 
-divfull = ggplot(full_rep, aes(epoch, proportion, 
+divfull = 
+  full_rep %>%
+  filter(medicin != 'A1' & medicin != 'B1') %>% droplevels() %>% 
+  # mutate(medicin = factor(medicin, 
+  #                         levels = c('A1',  'A2',  'A3',  'AC',  'B1',  'B2',  'B3',  'BC'),
+  #                         labels = c('Item', 'Dyad', 'Triad', 'Recombination', 'Item', 'Dyad', 'Triad', 'Recombination')))
+  mutate(lineage = factor(lineage, levels = c('A', 'B'), labels=c('lineage A', 'lineage B'))) %>% 
+  ggplot(aes(epoch, proportion, 
                          colour = lineage, group = medicin, 
                          size = as.factor(progress),
                          lty = as.factor(progress)
                          )) +
       geom_line() +
-      scale_colour_manual(values = c(matviridis[1,7], alpha('black', 0.6))) +
-      scale_size_manual(values = c(0.5, 1.5, 1.5, 3), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
-      scale_linetype_manual(values = c('solid', 'dotted','dashed',  'solid'), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
-      labs(y = '', x = '',
+      scale_colour_manual(values = c(#matviridis[1,6],
+                                     alpha('black', 0.55), alpha('black', 0.55))) +
+      scale_size_manual(values = c(0.5, 1.5, 3), labels = c('Dyad', 'Triad', 'Recombination')) +
+      scale_linetype_manual(values = c('solid', 'dashed',  'solid'), labels = c('Dyad', 'Triad', 'Recombination')) +
+      labs(x = '', y = 'Proportion of the population',
            lty = '', size = '',
            title ='Fully connected') +
       ylim(0, 1) +
       scale_x_continuous(trans = 'log10', limits = c(1, 1000)) +
       theme_light() +
+  facet_wrap(~lineage, nrow=2) +
       theme(legend.key.size = unit(1.0, "cm"),
-            legend.position = "none", text=element_text(size=14),
+            legend.position = "none", text=element_text(size=12),
             plot.margin=unit(c(0.1,0.1,0.1,0.1),"cm"),
             panel.grid.major = element_blank(),
             panel.grid.minor = element_blank(),
-            axis.text.y = element_blank())
+           # axis.text.y = element_blank(),
+            strip.background = element_blank(),
+            strip.text = element_text(colour='black', size=12))
 
 divfull <- arrangeGrob(divfull, top = textGrob(expression(bold("B")), x = unit(0, "npc")
         , y   = unit(1, "npc"), just=c("left","top"),
@@ -128,28 +139,48 @@ divfull <- arrangeGrob(divfull, top = textGrob(expression(bold("B")), x = unit(0
 
 # Plot diversity for second model of multilevel network
 
-divmls2 = ggplot(multi_rep2, aes(epoch, proportion, 
+divmls2 = 
+  multi_rep2 %>% 
+  filter(medicin != 'A1' & medicin != 'B1') %>% droplevels() %>% 
+  mutate(lineage = factor(lineage, levels = c('A', 'B'), labels=c('lineage A', 'lineage B'))) %>% 
+  
+  ggplot(aes(epoch, proportion, 
                             colour = lineage, group = medicin, 
                             size = as.factor(progress),
                             lty = as.factor(progress)
                             )) +
       geom_line() +
-     # scale_colour_manual(values = c(as.character(matviridis[7,10]), as.character(matviridis[7,5]))) +
-      scale_colour_manual(values = c(colviridis[7], alpha('orange', 0.5))) +
-      scale_size_manual(values = c(0.5, 1.5, 1.5, 3), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
-      scale_linetype_manual(values = c('solid', 'dotted','dashed',  'solid'), labels = c('Item', 'Dyad', 'Triad', 'Crossover')) +
-      labs(y = '', x = 'Time (epoch)',
+    scale_colour_manual(values = c(as.character(matviridis[7,6]), as.character(matviridis[7,6])), guide = FALSE) +
+  # scale_size_manual(values = c(0.5, 1.5, 1.5, 3), labels = c('Item', 'Dyad', 'Triad', 'Recombination')) +
+      # scale_linetype_manual(values = c('solid', 'dotted','dashed',  'solid'), labels = c('Item', 'Dyad', 'Triad', 'Recombination')) +
+      scale_size_manual(values = c(0.5, 1.5, 3), labels = c('Dyad', 'Triad', 'Recombination')) +
+      scale_linetype_manual(values = c('solid', 'dashed',  'solid'), labels = c('Dyad', 'Triad', 'Recombination')) +
+      labs(y = '', x = '',
            lty = '', size = '',
            title ='Multilevel (**second mode)') +
       ylim(0, 1) +
       scale_x_continuous(trans = 'log10', limits = c(1, 1000)) +
+    facet_wrap(~lineage, nrow=2) +
       theme_light() +
-      theme(legend.key.size = unit(1.0, "cm"),
-            legend.position = "none", text=element_text(size=14),
+          theme(
+        strip.background = element_blank(),
+      #  strip.text = element_text(colour='black', size=12),
+        axis.text.y = element_blank(),
+     legend.position = c(0.5, .45),
+     legend.justification = c("center", "top"),
+     legend.box.just = "center",
+     legend.margin = margin(),
+     legend.text = element_text(size = 10),
+     legend.key = element_rect(colour = "transparent", fill = "transparent"),
+     legend.title=element_blank(),
+     legend.box="vertical",
+            legend.key.size = unit(1.0, "cm"),
             plot.margin=unit(c(0.1,0.1,0.1,0.1),"cm"),
+            text=element_text(size=12),
             panel.grid.major = element_blank(),
-            panel.grid.minor = element_blank(),
-            axis.text.y = element_blank())
+            panel.grid.minor = element_blank()) +
+ # guides(colour = guide_legend(nrow = 1)) +
+  guides(size = guide_legend(nrow = 2))
 
 divmls2 <- arrangeGrob(divmls2, top = textGrob(expression(bold("D")), x = unit(0, "npc")
         , y   = unit(1, "npc"), just=c("left","top"),
@@ -160,38 +191,40 @@ divmls2 <- arrangeGrob(divmls2, top = textGrob(expression(bold("D")), x = unit(0
 
 # Plot diversity for first mode of multilevel network
 
-divmls1 = ggplot(multi_rep1, aes(epoch, proportion, 
+divmls1 = 
+  multi_rep1 %>% 
+  
+  filter(medicin != 'A1' & medicin != 'B1') %>% droplevels() %>% 
+  mutate(lineage = factor(lineage, levels = c('A', 'B'), labels=c('lineage A', 'lineage B'))) %>% 
+
+  ggplot(aes(epoch, proportion, 
                          colour = lineage, group = medicin, 
                          size = as.factor(progress),
                          lty = as.factor(progress))) +
       geom_line() +
      # scale_colour_manual(values = c(as.character(matviridis[7,10]), as.character(matviridis[7,5]))) +
-      scale_colour_manual(values = c(colviridis[7], alpha('orange', 0.5)),
-                          guide = FALSE) +
-      scale_size_manual(values = c(0.5, 1.5, 1.5, 3), labels = c('Item', 'Dyad', 'Triad', 'Recombination')) +
-      scale_linetype_manual(values = c('solid', 'dotted','dashed',  'solid'), labels = c('Item', 'Dyad', 'Triad', 'Recombination')) +
-      labs(y = 'Proportion of the population', x = 'Time (epoch)',
+      # scale_colour_manual(values = c(colviridis[7], alpha('orange', 0.5)),
+      #                     guide = FALSE) +
+    scale_colour_manual(values = c(as.character(matviridis[7,6]), as.character(matviridis[7,6])), guide = FALSE) +
+    # scale_size_manual(values = c(0.5, 1.5, 1.5, 3), labels = c('Item', 'Dyad', 'Triad', 'Recombination')) +
+      # scale_linetype_manual(values = c('solid', 'dotted','dashed',  'solid'), labels = c('Item', 'Dyad', 'Triad', 'Recombination')) +
+      scale_size_manual(values = c(0.5, 1.5, 3), labels = c('Dyad', 'Triad', 'Recombination')) +
+      scale_linetype_manual(values = c('solid', 'dashed',  'solid'), labels = c('Dyad', 'Triad', 'Recombination')) +
+      labs(y = '', x = 'Time (epoch)',
            lty = '', size = '', #colour='',
            title ='Multilevel (*first mode)') +
       ylim(0, 1) +
       scale_x_continuous(trans = 'log10', limits = c(1, 1000)) +
+    facet_wrap(~lineage, nrow=2) +
       theme_light() +
-    theme(
-     legend.position = c(0.5, .98),
-     legend.justification = c("center", "top"),
-     legend.box.just = "center",
-     legend.margin = margin(),
-     legend.text = element_text(size = 9),
-     legend.key = element_rect(colour = "transparent", fill = "transparent"),
-     legend.title=element_blank(),
-     legend.box="vertical",
-            legend.key.size = unit(1.0, "cm"),
+  theme(legend.key.size = unit(1.0, "cm"),
+            legend.position = "none", text=element_text(size=12),
             plot.margin=unit(c(0.1,0.1,0.1,0.1),"cm"),
-            text=element_text(size=14),
             panel.grid.major = element_blank(),
-            panel.grid.minor = element_blank()) +
- # guides(colour = guide_legend(nrow = 1)) +
-  guides(size = guide_legend(nrow = 2))
+            panel.grid.minor = element_blank(),
+            axis.text.y = element_blank(),
+            strip.background = element_blank())#,
+            #strip.text = element_text(colour='black', size=12))
 
 
 divmls1 <- arrangeGrob(divmls1, top = textGrob(expression(bold("C")), x = unit(0, "npc")
@@ -227,7 +260,7 @@ ggplot(aes(x = log(epoch+1), y = graph)) +
                     name = "") +  
   scale_x_continuous(limits = c(0, 8), expand = c(0, 0), labels = c('1', '10',  '100', '1000'), breaks = c(0, 2.31, 4.608, 6.908)) +
 #  labs(x = 'Time to recombination with \n one-to-many diffusion (epoch)', y = '') +
-  labs(x = '', y = 'Network size N=64, Connectivity K=12') +
+  labs(x = 'Time (epoch)', y = 'Network size N=64, Connectivity K=12') +
   #theme_ridges() + 
   theme_light() +
   theme(legend.position = "none",
@@ -235,7 +268,7 @@ ggplot(aes(x = log(epoch+1), y = graph)) +
         axis.title.y  = element_text(vjust = 0.5, hjust = 0.5),
         plot.margin=unit(c(0.1,0.1,0.1,0.1),"cm"),
         legend.key.size = unit(1.0, "cm"),
-        text=element_text(size=14),
+        text=element_text(size=12),
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
         axis.text.y = element_blank()
@@ -245,15 +278,15 @@ ggplot(aes(x = log(epoch+1), y = graph)) +
    ggtitle("Time to recombination")
 
 # Annotate distribution modes and network types
-mode1 <- grobTree(textGrob("*", x=0.33,  y=0.8, hjust=0, gp=gpar(col="black", fontsize=18, fontface="bold")))
-mode2 <- grobTree(textGrob("**", x=0.73,  y=0.22, hjust=0, gp=gpar(col="black", fontsize=18, fontface="bold")))
-mtl <- grobTree(textGrob("Multilevel", x=0.73,  y=0.1, hjust=0, gp=gpar(col="black", fontsize=14, fontface="plain")))
-fuc <- grobTree(textGrob("Fully connected", x=0.63,  y=0.33, hjust=0, gp=gpar(col="black", fontsize=14, fontface="plain")))
+mode1 <- grobTree(textGrob("*", x=0.3,  y=0.63, hjust=0, gp=gpar(col="black", fontsize=18, fontface="bold")))
+mode2 <- grobTree(textGrob("**", x=0.67,  y=0.29, hjust=0, gp=gpar(col="black", fontsize=18, fontface="bold")))
+mtl <- grobTree(textGrob("Multilevel", x=0.60,  y=0.155, hjust=0, gp=gpar(col="black", fontsize=12, fontface="plain")))
+fuc <- grobTree(textGrob("Fully connected", x=0.57,  y=0.37, hjust=0, gp=gpar(col="black", fontsize=12, fontface="plain")))
 rids_ttcm1_div = rids_ttcm1_div + annotation_custom(mode1) + annotation_custom(mode2) + annotation_custom(mtl) + annotation_custom(fuc)
 
 rids_ttcm1_div <- arrangeGrob(rids_ttcm1_div, top = textGrob(expression(bold("A")), x = unit(0, "npc")
         , y   = unit(1, "npc"), just=c("left","top"),
-        gp=gpar(col="black", fontsize=16, fontfamily="Arial")))
+        gp=gpar(col="black", fontsize=14, fontfamily="Arial")))
 
 
 
@@ -263,7 +296,6 @@ rids_ttcm1_div <- arrangeGrob(rids_ttcm1_div, top = textGrob(expression(bold("A"
 
 # 5. PLOTTING -------------------------------------------------------------
 
- lay <- rbind(c(1,4),
-              c(2,3))
 
-grid.arrange(rids_ttcm1_div, divmls1, divmls2, divfull, layout_matrix = lay)
+grid.arrange(rids_ttcm1_div, divfull, divmls1, divmls2,
+             ncol=4)
