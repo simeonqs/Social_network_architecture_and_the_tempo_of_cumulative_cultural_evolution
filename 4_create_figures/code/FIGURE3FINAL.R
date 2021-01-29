@@ -23,6 +23,12 @@ df_TTC_m1 %>% filter(graph!="full") %>% group_by(pop_size) %>% summarize(sd(epoc
 df_TTC_m1 %>% filter(graph!="full") %>% group_by(pop_size) %>% summarize(IQR(epoch)/(quantile(epoch,.25)+quantile(epoch,.75)))
 summary(df_TTC_m1$epoch)
 
+# rename architectures, and set 'random' graph to be the first, thus at the intercept of the GLMs
+df_TTC_m1 = df_TTC_m1 %>% 
+  mutate(graph = factor(graph,
+                         levels = c('degree','clustered','full','modular','modularclustered','multilevel','small'),
+                         labels = c("random","lattice","full","modular","modular_lattice","multilevel","small_world")))
+
 #Model 1 by degree and pop size
 {
   df = df_TTC_m1 %>% filter(graph!="full",pop_size==64,degree=="8") %>% droplevels()
@@ -113,6 +119,14 @@ summary(df_TTC_m1$epoch)
 #Model 2 by degree and pop size
 {
   load("../../2_Python_agent_based_models/data/df_TTC_m2.Rda")
+  
+  # rename architectures, and set 'random' graph to be the first, thus at the intercept of the GLMs
+  df_TTC_m2 = df_TTC_m2 %>% 
+  mutate(graph = factor(graph,
+                         levels = c('degree','clustered','full','modular','modularclustered','multilevel','small'),
+                         labels = c("random","lattice","full","modular","modular_lattice","multilevel","small_world")))
+
+  
   df = df_TTC_m2 %>% filter(graph!="full",pop_size==64,degree=="8") %>% droplevels()
   df$pop_size = as.factor(df$pop_size)
   glm.model = glm(log(epoch+1)~graph, family=gaussian(link="log"), data=df)
@@ -198,6 +212,13 @@ summary(df_TTC_m1$epoch)
 #Model 2 raw TTD by degree and pop size
 {
   load("../../2_Python_agent_based_models/data/df_TTC_TTD_m2.Rda")
+  
+  # rename architectures, and set 'random' graph to be the first, thus at the intercept of the GLMs
+  df_TTC_TTD_m2 = df_TTC_TTD_m2 %>% 
+  mutate(graph = factor(graph,
+                         levels = c('degree','clustered','full','modular','modularclustered','multilevel','small'),
+                         labels = c("random","lattice","full","modular","modular_lattice","multilevel","small_world")))
+
   df = df_TTC_TTD_m2 %>% filter(graph!="full",pop_size==64,degree=="8") %>% droplevels()
   glm.model = glm(log(epoch_TTD+1)~graph, family=gaussian(link="log"), data=df)
   r1= exp(glm.model$coefficients)
