@@ -57,12 +57,12 @@ load("../../2_Python_agent_based_models/data/df_TTC_TTD_m2.Rda")
 cu = df_TTC_TTD_m2
 
 # Set small population size N=64, low degree K=12, include fully connected networks
-cu = cu[which(cu$degree==12 | cu$degree=='full'),]
+cu = cu[which(cu$degree==12 | cu$degree=='N-1'),]
 cu = cu[which(cu$pop_size==64),]
 table(cu$degree, cu$graph, cu$pop_size)
 
 # reorder nets by inverse structural complexity
-cu$graph = factor(cu$graph, levels = c("multilevel", 'modularclustered',"modular", "clustered", "small", "degree",  'full'))
+cu$graph = factor(cu$graph, levels = c("multilevel", 'modular_lattice',"modular", "lattice", "small_world", "random",  'full'))
 
 # PLOT
 rids_ttcttd =cu %>%
@@ -91,12 +91,12 @@ ggplot(aes(x = log(delta_TTC_TTD+1), y = graph)) +
 cu = df_TTC_m2
 
 # Set small population size N=64, low degree K=12, include fully connected networks
-cu = cu[which(cu$degree==12 | cu$degree=='full'),]
+cu = cu[which(cu$degree==12 | cu$degree=='N-1'),]
 cu = cu[which(cu$pop_size==64),]
 table(cu$degree, cu$graph, cu$pop_size)
 
 # reorder nets by inverse structural complexity
-cu$graph = factor(cu$graph, levels = c("multilevel", 'modularclustered',"modular", "clustered", "small", "degree",  'full'))
+cu$graph = factor(cu$graph, levels = c("multilevel", 'modular_lattice',"modular", "lattice", "small_world", "random",  'full'))
 
 # PLOT
 rids_ttcm2 =
@@ -123,12 +123,14 @@ ggplot(aes(x = log(epoch+1), y = graph)) +
 cu = df_TTC_m1
 
 # Set small population size N=64, low degree K=12, include fully connected networks
-cu = cu[which(cu$degree==12 | cu$degree=='full'),]
+cu = cu[which(cu$degree==12 | cu$degree=='N-1'),]
 cu = cu[which(cu$pop_size==64),]
 table(cu$degree, cu$graph, cu$pop_size)
 
 # reorder nets by inverse structural complexity
-cu$graph = factor(cu$graph, levels = c("multilevel", 'modularclustered',"modular", "clustered", "small", "degree",  'full'), labels = c('Multilevel', 'Modular lattice', 'Modular','Lattice','Small-world','Random', "Fully connected"))
+cu$graph = factor(cu$graph, 
+                  levels = c("multilevel", 'modular_lattice',"modular", "lattice", "small_world", "random",  'full'),
+                  labels = c('Multilevel', 'Modular lattice', 'Modular','Lattice','Small-world','Random', "Fully connected"))
 
 
 # PLOT
@@ -162,12 +164,12 @@ ggplot(aes(x = log(epoch+1), y = graph)) +
 
 cu = df_TTC_TTD_m2
 
-cu = cu[which(cu$degree==12 | cu$degree=='full'),]
+cu = cu[which(cu$degree==12 | cu$degree=='N-1'),]
 cu = cu[which(cu$pop_size==144),]
 table(cu$degree, cu$graph, cu$pop_size)
 
 # reorder nets by inverse structural complexity
-cu$graph = factor(cu$graph, levels = c("multilevel", 'modularclustered',"modular", "clustered", "small", "degree",  'full'))
+cu$graph = factor(cu$graph, levels = c("multilevel", 'modular_lattice',"modular", "lattice", "small_world", "random",  'full'))
 
 # PLOT
 rids_ttcttd_144 =cu %>%
@@ -194,12 +196,12 @@ ggplot(aes(x = log(delta_TTC_TTD+1), y = graph)) +
 
 cu = df_TTC_m2
 
-cu = cu[which(cu$degree==12 | cu$degree=='full'),]
+cu = cu[which(cu$degree==12 | cu$degree=='N-1'),]
 cu = cu[which(cu$pop_size==144),]
 table(cu$degree, cu$graph, cu$pop_size)
 
 # reorder nets by inverse structural complexity
-cu$graph = factor(cu$graph, levels = c("multilevel", 'modularclustered',"modular", "clustered", "small", "degree",  'full'))
+cu$graph = factor(cu$graph, levels = c("multilevel", 'modular_lattice',"modular", "lattice", "small_world", "random",  'full'))
 
 
 # PLOT
@@ -227,12 +229,14 @@ ggplot(aes(x = log(epoch+1), y = graph)) +
 
 cu = df_TTC_m1
 
-cu = cu[which(cu$degree==12 | cu$degree=='full'),]
+cu = cu[which(cu$degree==12 | cu$degree=='N-1'),]
 cu = cu[which(cu$pop_size==144),]
 table(cu$degree, cu$graph, cu$pop_size)
 
 # reorder nets by inverse structural complexity
-cu$graph = factor(cu$graph, levels = c("multilevel", 'modularclustered',"modular", "clustered", "small", "degree",  'full'), labels = c('Multilevel', 'Modular lattice', 'Modular','Lattice','Small-world','Random', "Fully connected"))
+cu$graph = factor(cu$graph,
+                  levels = c("multilevel", 'modular_lattice',"modular", "lattice", "small_world", "random",  'full'),
+                  labels = c('Multilevel', 'Modular lattice', 'Modular','Lattice','Small-world','Random', "Fully connected"))
 
 
 # PLOT
@@ -263,12 +267,13 @@ ggplot(aes(x = log(epoch+1), y = graph)) +
 cu = df_TTC_TTD_m2
 
 # Set small population size N=64, low degree K=12, include fully connected networks
-cu = cu[which(cu$degree==12 | cu$degree=='full'),]
+cu = cu[which(cu$degree==12 | cu$degree=='N-1'),]
 cu = cu[which(cu$pop_size==324),]
 table(cu$degree, cu$graph, cu$pop_size)
 
 # reorder nets by inverse structural complexity
-cu$graph = factor(cu$graph, levels = c("multilevel", 'modularclustered',"modular", "clustered", "small", "degree",  'full'))
+cu$graph = factor(cu$graph, levels = c("multilevel", 'modular_lattice',"modular", "lattice", "small_world", "random",  'full'))
+
 
 
 # PLOT
@@ -296,12 +301,12 @@ ggplot(aes(x = log(delta_TTC_TTD+1), y = graph)) +
 cu = df_TTC_m2
 
 # Set small population size N=64, low degree K=12, include fully connected networks
-cu = cu[which(cu$degree==12 | cu$degree=='full'),]
+cu = cu[which(cu$degree==12 | cu$degree=='N-1'),]
 cu = cu[which(cu$pop_size==324),]
 table(cu$degree, cu$graph, cu$pop_size)
 
 # reorder nets by inverse structural complexity
-cu$graph = factor(cu$graph, levels = c("multilevel", 'modularclustered',"modular", "clustered", "small", "degree",  'full'))
+cu$graph = factor(cu$graph, levels = c("multilevel", 'modular_lattice',"modular", "lattice", "small_world", "random",  'full'))
 
 # PLOT
 rids_ttcm2_324 =
@@ -327,12 +332,14 @@ ggplot(aes(x = log(epoch+1), y = graph)) +
 cu = df_TTC_m1
 
 # Set small population size N=64, low degree K=12, include fully connected networks
-cu = cu[which(cu$degree==12 | cu$degree=='full'),]
+cu = cu[which(cu$degree==12 | cu$degree=='N-1'),]
 cu = cu[which(cu$pop_size==324),]
 table(cu$degree, cu$graph, cu$pop_size)
 
 # reorder nets by inverse structural complexity
-cu$graph = factor(cu$graph, levels = c("multilevel", 'modularclustered',"modular", "clustered", "small", "degree",  'full'), labels = c('Multilevel', 'Modular lattice', 'Modular','Lattice','Small-world','Random', "Fully connected"))
+cu$graph = factor(cu$graph,
+                  levels = c("multilevel", 'modular_lattice',"modular", "lattice", "small_world", "random",  'full'),
+                  labels = c('Multilevel', 'Modular lattice', 'Modular','Lattice','Small-world','Random', "Fully connected"))
 
 
 # PLOT

@@ -46,10 +46,6 @@ load("../../3_R_agent_based_models/data/props_all.RData")
 load("../../3_R_agent_based_models/data/results_ABM1_2020-08-14_13_06_41.RData")
 load("../../3_R_agent_based_models/data/results_ABM1_div_2020-08-14_13_06_41.RData")
 
-# If needed, you can also download these datasets in the following links
-# https://owncloud.gwdg.de/index.php/s/BeuEFZKJ1eNhiw4
-# https://owncloud.gwdg.de/index.php/s/zdkF0lmmjVP2U9E
-
 
 ## Data on time to recombination
 load("../../2_Python_agent_based_models/data/df_TTC_m1.Rda")
@@ -241,8 +237,9 @@ divmls1 <- arrangeGrob(divmls1, top = textGrob(expression(bold("C")), x = unit(0
 cu = df_TTC_m1
 
 # Set small population size N=64, low degree K=12, include fully connected networks
-cu = cu[which(cu$degree==12 | cu$degree=='full'),]
+cu = cu[which(cu$degree==12 | cu$degree=='N-1'),]
 cu = cu[which(cu$pop_size==64),]
+
 
 # pick the poor null model (full), the low end of the spectrum and good null model (degree), and the high end of the spectrum (multilevel)
 cu = cu[which(cu$graph=='full' | cu$graph=='multilevel'),]

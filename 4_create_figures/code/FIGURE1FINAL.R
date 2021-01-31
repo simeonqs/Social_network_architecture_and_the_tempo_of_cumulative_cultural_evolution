@@ -481,7 +481,9 @@ mls = ggnet2(net,
 ## Network size N=324, varying degree ##
 
 cu = df[which(df$pop_size==324 & df$graph!='full'),]
-cu = transform(cu, graph=factor(graph,levels = (c("full", "degree", "small", "clustered", "modular", 'modularclustered', 'multilevel'))))
+cu$graph = droplevels(cu$graph)
+cu = transform(cu, graph=factor(graph,
+                                levels = c("random", "small_world", "lattice", "modular", 'modular_lattice', 'multilevel')))
 
 fit9 <- survfit(Surv(log(epoch+1)) ~ graph + degree , data = cu)
 
@@ -521,12 +523,14 @@ surv_typedeg324 = ggsurvplot(
 
 # adding median lines
 dfmed <- data.frame(medians, survmedian, survmedian05, fit9$strata,
-                    graph = rep(c("degree", "small", "clustered", "modular", 'modularclustered', 'multilevel'), each=5))
+                    graph = rep(c("random", "small_world", "lattice", "modular", 'modular_lattice', 'multilevel'), each=5))
 
 surv_typedeg324$plot <- surv_typedeg324$plot + 
   scale_x_continuous(limits = c(0, 8), expand = c(0, 0), labels = c('1', '10',  '100', '1000'), breaks = c(0, 2.31, 4.608, 6.908)) +
   facet_wrap(~graph, ncol=1) +
-  geom_segment( data = dfmed[which(dfmed$graph=='degree'),], aes(y = 0, yend = survmedian05, x=medians, xend=medians), colour = "black", linetype='dashed')+
+  geom_segment( data = dfmed[which(dfmed$graph=='random'),],
+                aes(y = 0, yend = survmedian05, x=medians, xend=medians),
+                colour = "black", linetype='dashed')+
   theme(strip.background = element_blank(),
         strip.text.x = element_blank(),
         axis.text.y = element_blank()) +
@@ -541,7 +545,10 @@ surv_typedeg324$plot <- surv_typedeg324$plot +
 ## Network size N=144, varying degree ##
 
 cu = df[which(df$pop_size==144 & df$graph!='full'),]
-cu = transform(cu, graph=factor(graph,levels = (c("full", "degree", "small", "clustered", "modular", 'modularclustered', 'multilevel'))))
+cu$graph = droplevels(cu$graph)
+cu = transform(cu, graph=factor(graph,
+                                levels = c("random", "small_world", "lattice", "modular", 'modular_lattice', 'multilevel')))
+
 
 fit11 <- survfit(Surv(log(epoch+1)) ~ graph + degree + degree, data = cu)
 
@@ -581,12 +588,14 @@ surv_typedeg144 = ggsurvplot(
 
 # adding median lines
 dfmed <- data.frame(medians, survmedian, survmedian05, fit11$strata,
-                    graph = rep(c("degree", "small", "clustered", "modular", 'modularclustered', 'multilevel'), each=4))
+                    graph = rep(c("random", "small_world", "lattice", "modular", 'modular_lattice', 'multilevel'), each=4))
 
 surv_typedeg144$plot <- surv_typedeg144$plot + 
   scale_x_continuous(limits = c(0, 8), expand = c(0, 0), labels = c('1', '10',  '100', '1000'), breaks = c(0, 2.31, 4.608, 6.908)) +
   facet_wrap(~graph, ncol=1) +
-   geom_segment( data = dfmed[which(dfmed$graph=='degree'),], aes(y = 0, yend = survmedian05, x=medians, xend=medians), colour = "black", linetype='dashed')+
+   geom_segment( data = dfmed[which(dfmed$graph=='random'),],
+                 aes(y = 0, yend = survmedian05, x=medians, xend=medians),
+                 colour = "black", linetype='dashed')+
   theme(strip.background = element_blank(),
         strip.text.x = element_blank(),
         axis.text.y = element_blank()) +
@@ -602,7 +611,9 @@ surv_typedeg144$plot <- surv_typedeg144$plot +
 ## Network size N=64, varying degree ### 
 
 cu = df[which(df$pop_size==64 & df$graph!='full'),]
-cu = transform(cu, graph=factor(graph,levels = (c("full", "degree", "small", "clustered", "modular", 'modularclustered', 'multilevel'))))
+cu$graph = droplevels(cu$graph)
+cu = transform(cu, graph=factor(graph,
+                                levels = c("random", "small_world", "lattice", "modular", 'modular_lattice', 'multilevel')))
 
 fit8 <- survfit(Surv(log(epoch+1)) ~ graph + degree, data = cu)
 
@@ -642,11 +653,13 @@ surv_typedeg64 = ggsurvplot(
 
 # adding median lines
 dfmed <- data.frame(medians, survmedian, survmedian05, fit8$strata,
-                    graph = rep(c("degree", "small", "clustered", "modular", 'modularclustered', 'multilevel'), each=2))
+                    graph = rep(c("random", "small_world", "lattice", "modular", 'modular_lattice', 'multilevel'), each=2))
 
 surv_typedeg64$plot <- surv_typedeg64$plot + 
   scale_x_continuous(limits = c(0, 8), expand = c(0, 0), labels = c('1', '10',  '100', '1000'), breaks = c(0, 2.31, 4.608, 6.908)) +
-  geom_segment( data = dfmed[which(dfmed$graph=='degree'),], aes(y = 0, yend = survmedian05, x=medians, xend=medians), colour = "black", linetype='dashed')+
+  geom_segment( data = dfmed[which(dfmed$graph=='random'),],
+                aes(y = 0, yend = survmedian05, x=medians, xend=medians),
+                colour = "black", linetype='dashed')+
   facet_wrap(~graph, ncol=1) +
   theme(strip.background = element_blank(),
         strip.text.x = element_blank()) +
