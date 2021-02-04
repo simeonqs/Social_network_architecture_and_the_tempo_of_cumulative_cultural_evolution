@@ -1,4 +1,4 @@
-This is the Python code to run the agent based models. 
+This is the Python code to run the agent based models. The folder also contains the R code to clean the output of the models. This code only works if you run the models first. You can also skip these steps and use the pre-processed files in the *data* folder. 
 
 To run, navigate to containing directory and run using python3, takes one argument which is the graph type to use
 graph types: clustered, degree, full, modular_and_clustered, modular, multilevel, small_world
