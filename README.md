@@ -33,8 +33,9 @@ The data from 5,000 runs of these models are available in this Github repository
 
 
 ```
-Cantor M, Chimento M, Smeele SQ, He P, Papageorgiou D, Aplin LM, Farine DR. 2021. 
-Data from: Social network architecture and the tempo of cumulative cultural evolution. Dryad, Dataset, https://doi.org/10.5061/dryad.3r2280gff
+Cantor M, Chimento M, Smeele SQ, He P, Papageorgiou D, Aplin LM, Farine DR. 2021.
+Data from: Social network architecture and the tempo of cumulative cultural evolution.
+Dryad, Dataset, https://doi.org/10.5061/dryad.3r2280gff
 ```
 
 
@@ -47,6 +48,8 @@ We constructed two agent-based models to simulate cultural evolution on the diff
 The two agent-based models differed in the mechanics of information transmission: one-to-many versus one-to-one diffusion pathways. In our first agent-based model (model 1), all agents were initialized with an inventory of three items from each of two lineages. In each simulation round (epoch), each focal agent was selected once, at random, and a partner randomly chosen from its social network connections. These agents combined one or two items from their inventory in proportion to their value into a triad of items. If this triad was a valid product, knowledge of that product was learned, spread immediately to all their network connections (one-to-many diffusion), and subsequently became available as an ingredient for making new products. Simulations finished once a recombination product (a triad that recombines specific products from both lineages) was first innovated. We ran 5,000 simulations for each of the network architecture types, sizes and densities of connections, recording time to achieve the recombination product (in epochs) and tracking the diversity of cultural innovations over time. An epoch was one simulation round in which each agent was selected once as a focal agent in random order.
 
 Our second agent-based model (model 2) extended the first by changing the transmission mechanic and altering the set of valid combinations such that the model can run past the first innovation of either recombination product. Transmission of valid products now occurred between dyads of agents (one-to-one diffusion) prior to choosing items from their inventory, in contrast to the broadcast style of diffusion in model 1. Secondly, if a triad contained either recombination products, the final product was that recombination product. In the case where both recombination products were present in the triad, one was chosen as the final product at random. This allowed us to track the diffusion of recombination products beyond their innovation. We also ran 5,000 simulations for the same parameter space of model 1, recording time (in epochs) to cultural lineage recombination, as well as time to diffusion to the majority of the network.
+
+
 
 ------------------------------------------------
 
@@ -78,13 +81,5 @@ Our second agent-based model (model 2) extended the first by changing the transm
 *Department for the Ecology of Animal Societies, Max Planck Institute of Animal Behavior, Konstanz, Germany*
 
 *Departamento de Ecologia e Zoologia, Universidade Federal de Santa Catarina, Florianópolis, Brazil*
-
-
-
-------------------------------------------------
-
-**Funding:**
-
-This work was supported by the Max Planck Society, the Advanced Centre for Collective Behaviour, funded by the Deutsche Forschungsgemeinschaft (DFG, German Research Foundation) under Germany's Excellence Strategy (EXC 2117–422037984), the European Research Council (ERC) under the European Union’s Horizon 2020 research and innovation programme (grant agreement No. 850859), a Max Planck Independent Group Leader Fellowship, a scholarship from the China Scholarship Council (No. 201706100183).
 
 
