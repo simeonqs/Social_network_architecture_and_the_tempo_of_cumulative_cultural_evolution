@@ -3,9 +3,10 @@
 The Python and R code needed to replicate results from the article:
 
 ```
-Cantor M, Chimento M, Smeele SQ, He P, Papageorgiou D, Aplin LM, Farine DR. in review. 
+Cantor, M., Chimento, M., Smeele, S. Q., He, P., Papageorgiou, D., Aplin, L. M., & Farine, D. R. (2021). 
 Social network architecture and the tempo of cumulative cultural evolution. 
-https://www.biorxiv.org/content/10.1101/2020.12.04.411934v1
+Proceedings of the Royal Society B, 288(1946), 20203107.
+<https://doi.org/10.1098/rspb.2020.3107>
 ```
 
 ##### Version 0.2 January 2021
